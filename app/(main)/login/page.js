@@ -28,6 +28,7 @@ export default function login(){
                                     <Form onSubmit={autenticarUsuario}>
                                         <div className="text-center">
                                             <img
+                                            href="/"
                                             src="/logo.png"
                                             />
                                         </div>
@@ -39,8 +40,10 @@ export default function login(){
                                             <Form.Label>Contraseña</Form.Label>
                                             <Form.Control type="password" name="contraseña" placeholder="Contraseña"/>
                                         </Form.Group>
-                                        
-                                        <Button className="mb-4 text-center" variant="dark" type="submit">Iniciar Sesion</Button>
+                                        <div className="row">
+                                            <Button className="mb-4 m-2 text-center col" variant="dark" type="submit">Iniciar sesión</Button>
+                                            <Button className="mb-4 m-2 text-center col" variant="dark" href="/">Volver</Button>
+                                        </div>
                                         <p>¿No tienes cuenta? Registrate <Link href="/register">ahora</Link></p>    
                                     </Form>
                                 </div>

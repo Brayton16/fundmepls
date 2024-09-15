@@ -10,6 +10,7 @@ export default function Home() {
             <div className="row justify-content-center mt-5">             
                 <h1 className="col-2 text-center">FundMePls</h1>
                 <img
+                href="/"
                 className="col-1"
                 src="/logo.png"
                 />

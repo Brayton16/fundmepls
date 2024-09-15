@@ -28,6 +28,7 @@ export default function signUp(){
                                         <div className="row">
                                             <div className="text-center col">
                                                 <img
+                                                href="/"
                                                 className="m-3"
                                                 src="/logo.png"
                                                 />
@@ -55,12 +56,12 @@ export default function signUp(){
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Área de trabajo</Form.Label>
                                                 <Form.Select name="area" placeholder="Contraseña">
-                                                    <option value="">Computación</option>
-                                                    <option value=""></option>
-                                                    <option value=""></option>
-                                                    <option value=""></option>
-                                                    <option value=""></option>
-                                                    <option value=""></option>
+                                                    <option value="computación">Computación</option>
+                                                    <option value="entretenimiento">Entretenimiento</option>
+                                                    <option value="investigación">Investigación</option>
+                                                    <option value="arquitectura">Arquitectura</option>
+                                                    <option value="ingenieria">Ingeniería</option>
+                                                    <option value="publicidad">Publicidad</option>
                                                 </Form.Select>
                                             </Form.Group>
                                         </div>
@@ -85,7 +86,10 @@ export default function signUp(){
                                             </Form.Group>
                                         </div>
                                         <div className="text-center">
-                                            <Button className="mb-4 text-center" variant="dark" type="submit">Registrarse</Button>
+                                            <div className="row">
+                                                <Button className="mb-4 m-2 text-center col" variant="dark" type="submit">Registrarse</Button>
+                                                <Button className="mb-4 m-2 text-center col" variant="dark" href="/">Volver</Button>
+                                            </div>
                                             <p>¿Ya tienes cuenta? Inicia <Link href="/login">sesión</Link></p>    
                                         </div>
                                     </Form>
@@ -95,20 +99,6 @@ export default function signUp(){
                     </div>
                 </div>
             </section>
-            {/* <div className="container m-5 p-5">
-                <Form onSubmit={autenticarUsuario}>
-                    <Form.Group>
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control placeholder="Email"/>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Contraseña</Form.Label>
-                        <Form.Control placeholder="Contraseña"/>
-                    </Form.Group>
-                    <Button variant="danger" type="submit">Iniciar Sesion</Button>
-                    <p>¿No tienes cuenta? Registrate <Link href="/register">ahora</Link></p>
-                </Form>
-            </div> */}
         </main>
     );
 }
