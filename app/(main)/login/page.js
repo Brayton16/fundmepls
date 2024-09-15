@@ -9,8 +9,8 @@ export default function login(){
         const formData = new FormData(event.target);
         event.preventDefault();
         const rawFormData = {
-            Email: formData.get("Email"),
-            Contraseña: formData.get("Contraseña"),
+            Email: formData.get("email"),
+            Contraseña: formData.get("contraseña"),
         };
 
         console.log(rawFormData);

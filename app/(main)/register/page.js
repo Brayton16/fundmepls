@@ -9,8 +9,15 @@ export default function signUp(){
         const formData = new FormData(event.target);
         event.preventDefault();
         const rawFormData = {
-            Email: formData.get("Email"),
-            Contraseña: formData.get("Contraseña"),
+            nombre: formData.get("nombre"),
+            apellidos: formData.get("apellidos"),
+            cédula: formData.get("cédula"),
+            email: formData.get("email"),
+            area: formData.get("area"),
+            teléfono: formData.get("teléfono"),
+            dinero: formData.get("dinero"),
+            contraseña: formData.get("contraseña"),
+            confirmar: formData.get("confirmar"),
         };
 
         console.log(rawFormData);
