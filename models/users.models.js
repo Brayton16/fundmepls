@@ -2,38 +2,46 @@ import sql from "mssql";
 import {getConnection} from "../database/connection.js";
 import emailService from "../services/emailService.js";
  
-export const logIn = async (req, res) => {
-    console.log(req.body)
-    const {email, password} = req.body;
 
-    // se verifica si algun campo requerido no se ingreso
-    if (
-        email == null || password == null
-    ) {
+export const login = async (req, res) => {
+    console.log(req.body); // Verifica que los datos del cliente estén llegando correctamente
+
+    const { email, password } = req.body;
+
+    // Verificación de campos requeridos
+    if (!email || !password) {
         return res.status(400).json({ msg: "Error: Por favor ingrese todos los campos" });
-    } 
+    }
 
     try {
         const pool = await getConnection();
- 
-        const result = await pool
-        .request()
-        .input("Email", sql.VarChar, email)
-        .input("Password", sql.VarChar, password)
-        .execute("Login");    
- 
-        const userInfo = result.recordset[0]
 
-        return res.status(201).json({
+        // Ejecuta el procedimiento almacenado de login
+        const result = await pool
+            .request()
+            .input("Email", sql.VarChar, email)
+            .input("Password", sql.VarChar, password)
+            .execute("Login");
+
+        // Verifica si se encontró el usuario
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ msg: "Usuario o contraseña incorrectos" });
+        }
+
+        const userInfo = result.recordset[0];
+
+        // Respuesta exitosa en formato JSON
+        return res.status(200).json({
             message: "Login realizado exitosamente.",
             userID: userInfo.UserID,
             IsAdmin: userInfo.IsAdmin
         });
-        
+
     } catch (error) {
-        res.status(500);
-        res.send(error.message);
-    } 
+        // Manejo de errores del servidor
+        console.error('Error en login:', error);
+        return res.status(500).json({ msg: "Error en el servidor", error: error.message });
+    }
 };
  
 export const createUser = async (req, res) => {

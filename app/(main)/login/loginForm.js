@@ -5,10 +5,10 @@ import {Form,  Button, FormGroup } from "react-bootstrap";
 //import { routeModule } from "next/dist/build/templates/app-page";
 import { useRouter } from "next/navigation";
 
-
 export default function LoginForm(){
 
     const router = useRouter();
+
     async function autenticarUsuario(event) {
         const formData = new FormData(event.target);
         event.preventDefault();
@@ -19,6 +19,25 @@ export default function LoginForm(){
         //Hay que usar variables de entorno para que no se vean las credenciales.
         if(rawFormData.Email !== "Brayton2011@hotmail.es"){ //process.env.ADMIN_EMAIL
             //verificar si es un usuario normal
+            fetch('http://localhost:3001/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                
+                body: JSON.stringify({
+                    email: rawFormData.Email,
+                    password: rawFormData.Contraseña
+                })
+                    
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
             
 
         }else{
@@ -55,4 +74,6 @@ export default function LoginForm(){
             <p>¿No tienes cuenta? Registrate <Link href="/register">ahora</Link></p>    
         </Form>
     );
-}
+} 
+
+ 

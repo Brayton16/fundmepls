@@ -18,6 +18,6 @@ router.get("/users/donation", getUserDonations);
 router.get("/users/donation/all", getAllDonations);
 router.get("/users/donation/count", donationsCount);
 
-router.get("/users/login", login);
+router.post("/users/login", login);
 
 export default router 

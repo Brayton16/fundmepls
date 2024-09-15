@@ -1,11 +1,11 @@
 import brevo from "@getbrevo/brevo";;
   
-//const apiKey = process.env.REACT_APP_BREVO_API_KEY;
-
+//const apiKey = process.env.BREVO_API_KEY;
+// EL SERVICIO NO TIENE BIEN LA VARIABLES DE ENTORNO, PERO SI SIRVE SI SE LE COLOCA EL API KEY DIRECTO
 
 const appName = "FundMePls" 
 const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, BREVO_API_KEY);
+apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, "a");
   
 export const sendRegisterEmail = async (user) => {
 
