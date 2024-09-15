@@ -11,16 +11,51 @@ export default function signUp(){
         const rawFormData = {
             nombre: formData.get("nombre"),
             apellidos: formData.get("apellidos"),
-            cédula: formData.get("cédula"),
+            cedula: formData.get("cédula"),
             email: formData.get("email"),
             area: formData.get("area"),
-            teléfono: formData.get("teléfono"),
+            telefono: formData.get("teléfono"),
             dinero: formData.get("dinero"),
-            contraseña: formData.get("contraseña"),
+            contrasena: formData.get("contraseña"),
             confirmar: formData.get("confirmar"),
         };
 
-        console.log(rawFormData);
+        if(rawFormData.contrasena != rawFormData.confirmar){
+            alert("Las contraseñas no coincides")
+            return;
+        }
+        
+        fetch('http://localhost:3001/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+            body: JSON.stringify({
+                nombre: rawFormData.nombre,
+                apellidos: rawFormData.apellidos,
+                cedula: rawFormData.cedula,
+                email: rawFormData.email,
+                area: rawFormData.area,
+                dinero: rawFormData.dinero,
+                telefono: rawFormData.telefono,
+                contrasena: rawFormData.contrasena
+            })
+                
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            alert("Usuario registrado con éxito")
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Hubo un problema al registrar al usuario");
+        });
+        
+    
+    console.log(rawFormData);
+
     }
 
     return(
@@ -42,23 +77,23 @@ export default function signUp(){
                                             </div>
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Nombre</Form.Label>
-                                                <Form.Control type="text" name="nombre" placeholder="Nombre"/>
+                                                <Form.Control type="text" name="nombre" placeholder="Nombre" required/>
                                             </Form.Group>
                                         </div>
                                         <div className="row">
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Apellidos</Form.Label>
-                                                <Form.Control type="text" name="apellidos" placeholder="Apellidos"/>
+                                                <Form.Control type="text" name="apellidos" placeholder="Apellidos" required/>
                                             </Form.Group>
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Cédula</Form.Label>
-                                                <Form.Control type="text" name="cédula" placeholder="Cédula"/>
+                                                <Form.Control type="text" name="cédula" placeholder="Cédula" required/>
                                             </Form.Group>
                                         </div>
                                         <div className="row">
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Email</Form.Label>
-                                                <Form.Control type="email" name="email" placeholder="Email"/>
+                                                <Form.Control type="email" name="email" placeholder="Email" required/>
                                             </Form.Group>
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Área de trabajo</Form.Label>
@@ -75,21 +110,21 @@ export default function signUp(){
                                         <div className="row">
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Teléfono</Form.Label>
-                                                <Form.Control type="number" name="teléfono" placeholder="Teléfono"/>
+                                                <Form.Control type="number" name="teléfono" placeholder="Teléfono" required pattern="\d+"/>
                                             </Form.Group>
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Dinero inicial</Form.Label>
-                                                <Form.Control type="number" name="dinero" placeholder="Dinero inicial"/>
+                                                <Form.Control type="number" name="dinero" placeholder="Dinero inicial" required pattern="\d+"/>
                                             </Form.Group>
                                         </div>
                                         <div className="row">
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Contraseña</Form.Label>
-                                                <Form.Control type="password" name="contraseña" placeholder="Contraseña"/>
+                                                <Form.Control type="password" name="contraseña" placeholder="Contraseña" required/>
                                             </Form.Group>
                                             <Form.Group className="mb-4 col">
                                                 <Form.Label>Confirmar contraseña</Form.Label>
-                                                <Form.Control type="password" name="confirmar" placeholder="Confirmar contraseña"/>
+                                                <Form.Control type="password" name="confirmar" placeholder="Confirmar contraseña" required/>
                                             </Form.Group>
                                         </div>
                                         <div className="text-center">

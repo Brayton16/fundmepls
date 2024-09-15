@@ -14,12 +14,12 @@ export const sendRegisterEmail = async (user) => {
 
         sendSmtpEmail.subject = "¡Bienvenid@ a nuestra plataforma de crowdfunding FundMePls!";
         sendSmtpEmail.to = [
-        { email: user.email, name: user.firstName },
+        { email: user.email, name: user.nombre },
         ];
         sendSmtpEmail.htmlContent = `
         <html>
             <body>
-                <h1>Bienvenido, ${user.firstName}</h1>
+                <h1>Bienvenido, ${user.nombre}</h1>
                 <p>Tú solicitud de registro se ha procesado exitosamente. Gracias por preferir nuestros servicios. <br> Descubre todo sobre nuestra plataforma para que puedas alcanzar tus metas o ayudar a otros a lograrlo.</p>
                 <a href='https://www.tu-plataforma.com'>Visita nuestra web</a>
             </body>

@@ -43,51 +43,46 @@ export const login = async (req, res) => {
         return res.status(500).json({ msg: "Error en el servidor", error: error.message });
     }
 };
- 
+
 export const createUser = async (req, res) => {
     console.log(req.body)
-    const {firstName, lastName, cedula, email, workArea, iniMoney, phoneNumber, password, passwordConfirm } = req.body;
+    const { nombre, apellidos, cedula, email, area, dinero, telefono, contrasena } = req.body;
 
     // se verifica si algun campo requerido no se ingreso
     if (
-        firstName == null || lastName == null || cedula == null || email == null || workArea == null 
-        || iniMoney == null || phoneNumber == null || password == null || passwordConfirm == null
+        nombre == null || apellidos == null || cedula == null || email == null || area == null 
+        || dinero == null || telefono == null || contrasena == null
     ) {
         return res.status(400).json({ msg: "Error: Por favor ingrese todos los campos" });
     } 
-
-    // error para cuando la contraseña y confirmacion de contraseña no coincidan
-    if (password !== passwordConfirm){
-        return res.status(400).json({ msg: "Error: la contraseña y la confirmación de contraseña no coinciden" });
-    }
 
     try {
         const pool = await getConnection();
  
         const result = await pool
         .request()
-        .input("FirstName", sql.VarChar, firstName)
-        .input("LastName", sql.VarChar, lastName)
+        .input("FirstName", sql.VarChar, nombre)
+        .input("LastName", sql.VarChar, apellidos)
         .input("Cedula", sql.VarChar, cedula)
         .input("Email", sql.VarChar, email)
-        .input("WorkArea", sql.VarChar, workArea)
-        .input("IniMoney", sql.Decimal, iniMoney)
-        .input("PhoneNumber", sql.VarChar, phoneNumber)
-        .input("Password", sql.VarChar, password)
+        .input("WorkArea", sql.VarChar, area)
+        .input("IniMoney", sql.Decimal, dinero)
+        .input("PhoneNumber", sql.VarChar, telefono)
+        .input("Password", sql.VarChar, contrasena)
         .execute('CreateUser');    
  
         // eviar la bienvenida al usuario por correo electronico
-        await emailService.sendRegisterEmail({firstName, email});
+        await emailService.sendRegisterEmail({nombre, email});
 
         return res.status(201).json({
             message: "Usuario registrado exitosamente.",
-            firstName,
-            lastName,
+            nombre,
+            apellidos,
             cedula,
             email, 
-            workArea,
-            iniMoney,
-            phoneNumber
+            area,
+            dinero,
+            telefono
         });
         
     } catch (error) {
