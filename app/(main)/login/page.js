@@ -23,18 +23,26 @@ export default function login(){
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                             <div className="card shadow-2-strong" >
-                                <div className="card-body border-0 rounded p-5" style={{background: "#b80006e2"}}>
-                                    <Form.Group className="mb-4">
-                                        <Form.Label>Email</Form.Label>
-                                        <Form.Control type="email" name="email" placeholder="Email"/>
-                                    </Form.Group>
-                                    <Form.Group className="mb-4">
-                                        <Form.Label>Contraseña</Form.Label>
-                                        <Form.Control type="password" name="contraseña" placeholder="Contraseña"/>
-                                    </Form.Group>
+                                <div className="card-body border-0 rounded p-5 text-light" style={{background: "#b80006e2"}}>
                                     
-                                    <Button className="mb-4 text-center" variant="dark" type="submit">Iniciar Sesion</Button>
-                                    <p>¿No tienes cuenta? Registrate <Link href="/register">ahora</Link></p>    
+                                    <Form onSubmit={autenticarUsuario}>
+                                        <div className="text-center">
+                                            <img
+                                            src="/logo.png"
+                                            />
+                                        </div>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label>Email</Form.Label>
+                                            <Form.Control type="email" name="email" placeholder="Email"/>
+                                        </Form.Group>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label>Contraseña</Form.Label>
+                                            <Form.Control type="password" name="contraseña" placeholder="Contraseña"/>
+                                        </Form.Group>
+                                        
+                                        <Button className="mb-4 text-center" variant="dark" type="submit">Iniciar Sesion</Button>
+                                        <p>¿No tienes cuenta? Registrate <Link href="/register">ahora</Link></p>    
+                                    </Form>
                                 </div>
                             </div>
                         </div>
