@@ -1,19 +1,9 @@
-"use client";
-import Link from "next/link";
-import styles from "./page.module.css";
-import {Form,  Button, FormGroup } from "react-bootstrap";
+import LoginForm from "./loginForm";
 
-export default function login(){
-
-    async function autenticarUsuario(event) {
-        const formData = new FormData(event.target);
-        event.preventDefault();
-        const rawFormData = {
-            Email: formData.get("email"),
-            Contraseña: formData.get("contraseña"),
-        };
-
-        console.log(rawFormData);
+export default function Login(){
+    
+    async function login(params) {
+        "use server";        
     }
 
     return(
@@ -23,29 +13,8 @@ export default function login(){
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                             <div className="card shadow-2-strong" >
-                                <div className="card-body border-0 rounded p-5 text-light" style={{background: "#b80006e2"}}>
-                                    
-                                    <Form onSubmit={autenticarUsuario}>
-                                        <div className="text-center">
-                                            <img
-                                            href="/"
-                                            src="/logo.png"
-                                            />
-                                        </div>
-                                        <Form.Group className="mb-4">
-                                            <Form.Label>Email</Form.Label>
-                                            <Form.Control type="email" name="email" placeholder="Email"/>
-                                        </Form.Group>
-                                        <Form.Group className="mb-4">
-                                            <Form.Label>Contraseña</Form.Label>
-                                            <Form.Control type="password" name="contraseña" placeholder="Contraseña"/>
-                                        </Form.Group>
-                                        <div className="row">
-                                            <Button className="mb-4 m-2 text-center col" variant="dark" type="submit">Iniciar sesión</Button>
-                                            <Button className="mb-4 m-2 text-center col" variant="dark" href="/">Volver</Button>
-                                        </div>
-                                        <p>¿No tienes cuenta? Registrate <Link href="/register">ahora</Link></p>    
-                                    </Form>
+                                <div className="card-body border-0 rounded p-5 text-light" style={{background: "#b80006e2"}}>  
+                                    <LoginForm login={login} />
                                 </div>
                             </div>
                         </div>

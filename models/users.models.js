@@ -2,7 +2,7 @@ import sql from "mssql";
 import {getConnection} from "../database/connection.js";
 import emailService from "../services/emailService.js";
  
-export const login = async (req, res) => {
+export const logIn = async (req, res) => {
     console.log(req.body)
     const {email, password} = req.body;
 
