@@ -19,27 +19,32 @@ export default function LoginForm(){
         //Hay que usar variables de entorno para que no se vean las credenciales.
         if(rawFormData.Email !== "Brayton2011@hotmail.es"){ //process.env.ADMIN_EMAIL
             //verificar si es un usuario normal
-            fetch('http://localhost:3001/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                
-                body: JSON.stringify({
-                    email: rawFormData.Email,
-                    password: rawFormData.Contraseña
-                })
-                    
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
+            try {
+                const response = await fetch('http://localhost:3001/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: rawFormData.Email,
+                        password: rawFormData.Contraseña
+                    })
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    console.log(data);
+                    router.push("/homepage");  // Redirigir al usuario a la página de inicio
+                } else {
+                    // Mostrar mensaje de error al usuario
+                    console.error(data.msg || 'Error en la autenticación');
+                    alert(data.msg || 'Error en la autenticación');
+                }
+            } catch (error) {
                 console.error('Error:', error);
-            });
-            
-
+                alert('Error en la autenticación');
+            }
         }else{
             if(rawFormData.Contraseña !== "Reque2002"){ //process.env.ADMIN_PASSWORD
                 //error de datos incorrectos

@@ -3,16 +3,17 @@ import emailService from "../services/emailService.js";
 import sql from 'mssql';
 
 
-export const getProyects = async (req, res) => {
-    try{
-        const pool = await getConnection();
-        const result = await pool.request().execute('GetActiveProjects');
-        res.json(result.recordset)
 
-    }
-    catch(error){
-        res.status(500);
-        res.send(error.message);
+export const getProyects = async (req, res) => {
+    const { query } = req.query; // Obtiene el parámetro de consulta de la URL
+    try {
+        const pool = await getConnection(); // Asumiendo que esta es tu función para obtener conexión a la base de datos
+        const result = await pool.request()
+            .input("SearchQuery", sql.NVarChar, query || '') // Usa el parámetro de consulta de la búsqueda, o una cadena vacía si no se proporciona
+            .execute('GetActiveProjects');
+        res.json(result.recordset); // Envía los datos como JSON
+    } catch (error) {
+        res.status(500).send(error.message); // Maneja errores
     }
 };
 

@@ -1,25 +1,91 @@
-import Link from "next/link";
-import styles from "./page.module.css";
-import {Form,  Button, FormGroup, Navbar } from "react-bootstrap";
+"use client";  // Esto indica que es un Client Component
+import React, { useState, useEffect } from 'react';
 import UserNavBar from "@/components/userNavbar";
 
-export default function homepage(){
 
+export default function Homepage() {
+    const [query, setQuery] = useState('');
+    const [proyectos, setProyectos] = useState([]);
 
+    const buscarProyectos = (query) => {
+        fetch(`http://localhost:3001/proyectos?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
 
+    useEffect(() => {
+        if (query) {
+            buscarProyectos(query);
+        }else{
+            buscarProyectos(query);
+        }
+    }, [query]);
 
+    const handleSearchChange = (e) => {
+        setQuery(e.target.value);
+    };
 
-    return(
-        
-        <main style={{color: "white"}}>
-            <header><UserNavBar/></header>
+    // Estilos en línea
+    const containerStyle = {
+        padding: '20px',
+        backgroundColor: '#f8f9fa',
+        minHeight: '100vh'
+    };
+
+    const galleryStyle = {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '20px',
+        justifyContent: 'center'
+    };
+
+    const cardStyle = {
+        backgroundColor: '#fff',
+        border: '1px solid #ddd',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        padding: '15px',
+        width: '300px',
+        textAlign: 'center',
+        transition: 'transform 0.2s',
+        cursor: 'pointer'
+    };
+
+    const cardHoverStyle = {
+        transform: 'scale(1.05)'
+    };
+
+    const imgStyle = {
+        maxWidth: '100%',
+        borderRadius: '8px',
+        marginBottom: '10px'
+    };
+
+    const titleStyle = {
+        color: '#333',
+        fontSize: '1.5rem',
+        marginBottom: '10px'
+    };
+
+    const textStyle = {
+        color: '#666',
+        fontSize: '1rem',
+        marginBottom: '8px'
+    };
+
+    return (
+        <main style={{ color: "white" }}>
+            <header><UserNavBar /></header>
             <section className="vh-100">
                 <div className="container py-5 h-100">
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
-                            <div className=" col-3 p-0 text-dark">
-                                <h2 className=" p-3">Filtros</h2>
-
+                            <div className="col-3 p-0 text-dark">
+                                <h2 className="p-3">Filtros</h2>
                                 <div className="d-flex align-items-center">
                                     <h3 className="p-2">Todas las categorias</h3>
                                     <input type="checkbox" className="form-check-input"></input>
@@ -46,28 +112,56 @@ export default function homepage(){
                                 <div className="d-flex align-items-center">
                                     <h3 className="p-1">Fechas</h3>
                                 </div>
-
-
                             </div>
-                            <div className=" col-9 p-4">
+                            <div className="col-9 p-4">
+                                <form className="d-flex" role="search">
+                                    <input
+                                        className="form-control me-2"
+                                        type="search"
+                                        placeholder="Buscar proyectos"
+                                        aria-label="Search"
+                                        value={query}
+                                        onChange={handleSearchChange}
+                                    />
+                                </form>
 
-                            <form className="d-flex" role="search"> 
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
-                                <button className="btn btn-outline-success" type="submit">Search</button>
-                            </form>
-
-
+                                {/* Contenedor donde se mostrarán los proyectos */}
+                                <div id="proyecto-container" style={containerStyle}>
+                                    <div style={galleryStyle}>
+                                        {proyectos.length > 0 ? (
+                                            proyectos.map((proyecto) => (
+                                                <div 
+                                                    key={proyecto.ProjectID} 
+                                                    style={cardStyle}
+                                                    onMouseEnter={(e) => e.currentTarget.style.transform = cardHoverStyle.transform}
+                                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                                >
+                                                    <img
+                                                        src={proyecto.MediaURL || "https://via.placeholder.com/150"}
+                                                        alt={`Imagen del proyecto ${proyecto.ProjectName}`}
+                                                        style={imgStyle}
+                                                    />
+                                                    <h3 style={titleStyle}>{proyecto.ProjectName}</h3>
+                                                    <p style={textStyle}>Descripción: {proyecto.ProjectDescription}</p>
+                                                    <p style={textStyle}>Objetivo de Financiamiento: {proyecto.FundingGoal}</p>
+                                                    <p style={textStyle}>Categoría: {proyecto.Category}</p>
+                                                    <p style={textStyle}>Fecha Límite de Financiamiento: {new Date(proyecto.FundingDeadline).toLocaleDateString()}</p>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p>No se encontraron proyectos</p>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-
             </section>
         </main>
     );
 }
+
 
 /*export default function login(){
 

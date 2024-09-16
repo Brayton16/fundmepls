@@ -40,7 +40,7 @@ export const login = async (req, res) => {
     } catch (error) {
         // Manejo de errores del servidor
         console.error('Error en login:', error);
-        return res.status(500).json({ msg: "Error en el servidor", error: error.message });
+        return res.status(500).json({ msg: "Error en el servidor/Error datos mal ingresados", error: error.message });
     }
 };
 
