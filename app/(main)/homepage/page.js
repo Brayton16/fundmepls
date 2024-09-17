@@ -192,7 +192,7 @@ export default function Homepage() {
                         <div className="row bg-white m-0">
                             <div className="col-3 p-0 text-dark">
                                 
-                                <h2 className=" p-3">Filtros</h2>
+                                <h2 className="p-1 py-3">Filtros</h2>
 
                                 <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleCategorias} style={{ cursor: 'pointer' }}>Categorías</h3>
@@ -267,7 +267,7 @@ export default function Homepage() {
                             <div className="col-9 p-4">
                                 <form className="d-flex" role="search">
                                     <input
-                                        className="form-control me-2"
+                                        className="form-control mb-4"
                                         type="search"
                                         placeholder="Buscar proyectos"
                                         aria-label="Search"
