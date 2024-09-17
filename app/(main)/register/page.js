@@ -30,6 +30,11 @@ export default function signUp(){
             return;
         }
         
+        res.setHeader('Access-Control-Allow-Origin', '*'); // Puedes cambiar '*' por un dominio específico si deseas más seguridad
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+
         fetch('https://fundmepls.vercel.app/users', {
             method: 'POST',
             headers: {
