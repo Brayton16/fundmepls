@@ -5,7 +5,7 @@ import UserNavBar from "@/components/userNavbar";
 
 export default function misProyectos() {
     return (
-        <main style={{ color: "white" }}>
+        <main>
             <h1>Hola</h1>
             {/* <section className="vh-100">
                 <div className="container py-5 h-100">
