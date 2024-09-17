@@ -17,7 +17,7 @@ export default function LoginForm(){
             Contraseña: formData.get("contraseña"),
         };
         //Hay que usar variables de entorno para que no se vean las credenciales.
-        if(rawFormData.Email !== "Brayton2011@hotmail.es"){ //process.env.ADMIN_EMAIL
+        if(rawFormData.Email !== "admin@itcr.ac.cr"){ //process.env.ADMIN_EMAIL
             //verificar si es un usuario normal
             try {
                 const response = await fetch('http://localhost:3001/users/login', {
@@ -35,7 +35,7 @@ export default function LoginForm(){
     
                 if (response.ok) {
                     console.log(data);
-                    router.push("/homepage");  // Redirigir al usuario a la página de inicio
+                    router.push("/users/homepage");  // Redirigir al usuario a la página de inicio
                 } else {
                     // Mostrar mensaje de error al usuario
                     console.error(data.msg || 'Error en la autenticación');
@@ -46,10 +46,10 @@ export default function LoginForm(){
                 alert('Error en la autenticación');
             }
         }else{
-            if(rawFormData.Contraseña !== "Reque2002"){ //process.env.ADMIN_PASSWORD
+            if(rawFormData.Contraseña !== "Reque2024"){ //process.env.ADMIN_PASSWORD
                 //error de datos incorrectos
             }else{
-                router.push("/admin")
+                router.push("/admin/homepage")
             }
         }
         

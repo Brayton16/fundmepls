@@ -7,10 +7,7 @@ import { Placeholder } from "react-bootstrap";
 export default function micuenta(){
     return(
 
-        <main className="m-0">
-            <header>
-                <UserNavBar></UserNavBar>
-            </header>
+        <main>
             <section className="vh-100">
                 <div className="container py-0 h-100">
                     <div className="container-fluid p-0">
@@ -45,7 +42,7 @@ export default function micuenta(){
                         </div>
 
                         <div className="row m-0">
-                            <div className="col-6 text-white pt-3" style={{background: "#49454F"}}>
+                            <div className="col-6 text-white pt-3 p-5" style={{background: "#49454F"}}>
                                 <div className=" row m-0">
                                     <div className="col-7">
                                         <h3>Nombre:</h3>
@@ -83,7 +80,7 @@ export default function micuenta(){
 
                             </div>
 
-                            <div className="col-6 pt-3" style={{background: "#D9D9D9"}}>
+                            <div className="col-6 pt-3 p-5" style={{background: "#D9D9D9"}}>
                                 <h3>Operaciones debilletera:</h3>
                                 <h4 className="p-2 text-primary">Recargar Goofycoins</h4>
                                 <h4 className="p-2 text-primary">Historial de Transacciones</h4>

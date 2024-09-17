@@ -20,11 +20,10 @@ function userNavBar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link className=" text-light" href="/">Mis proyectos</Nav.Link>
-            <Nav.Link className=" text-light" href="/">Crear publicación</Nav.Link>
-            <Nav.Link className=" text-light" href="/">Donar</Nav.Link>
-            <Nav.Link className=" text-light" href="/">Historial</Nav.Link>
-            <Nav.Link className=" text-light" href="/">Mi cuenta</Nav.Link>
+            <Nav.Link className="mx-2 text-light" href="/users/misProyectos">Mis proyectos</Nav.Link>
+            <Nav.Link className="mx-2 text-light" href="/users/crearProyecto">Crear publicación</Nav.Link>
+            <Nav.Link className="mx-2 text-light" href="/users/homepage">Donar</Nav.Link>
+            <Nav.Link className="mx-2 text-light" href="/users/micuenta">Mi cuenta</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
