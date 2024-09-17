@@ -21,11 +21,21 @@ export default function signUp(){
         };
 
         if(rawFormData.contrasena != rawFormData.confirmar){
-            alert("Las contraseñas no coinciden")
+            alert("Las contraseñas no coinciden");
+            return;
+        }
+
+        if(!rawFormData.email.includes("@estudiantec.cr")){
+            alert("El correo no corresponde al dominio estudiantec");
+            return;
+        }
+
+        if(rawFormData.cedula.length() <= 9){
+            alert("El largo de la cédula no corresponde");
             return;
         }
         
-        fetch('http://localhost:3001/users', {
+        fetch('http://fundmepls.vercel.app/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
