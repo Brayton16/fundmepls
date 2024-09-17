@@ -14,7 +14,7 @@ export default function micuenta(){
                 <div className="container py-0 h-100">
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
-                            <div className="container container-fluid bg-dark text-white w-100% p-4">
+                            <div className="container container-fluid text-white w-100% p-4" style={{background: "#35303D"}}>
                                 <div className="row">
                                     <div className="col-6 ">
                                         <h2>Mi cuenta</h2>
@@ -25,20 +25,32 @@ export default function micuenta(){
                                         <div className=" col-4 ">
                                             <h4>Saldo disponible</h4>
                                         </div>
-                                        <div className=" col-4">
+                                        <div className=" col-4 text-center">
                                             <h2> 500 </h2>
                                         </div>
                                         <div className=" col-4">
-                                            <Image
-                                            scr = "/goofycoin.png"
-                                            width={50} // Ancho de la imagen
-                                            height={50} // Alto de la imagen
+                                            <img
+                                            href = "/"
+                                            src = "/goofycoin.png"
+                                            width={70}
+                                            height={70}
                                             />
                                         </div>
                                     </div>
                                 </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div className="row m-0">
+                            <div className="col-6" style={{background: "#49454F"}}>
+                                <h1>Mi bombo</h1>
+                            </div>
+
+                            <div className="col-6" style={{background: "#D9D9D9"}}>
+                                <h1>Mi bombo</h1>
+                            </div>
+
                         </div>
                     </div>
                 </div>

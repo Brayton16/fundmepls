@@ -60,8 +60,8 @@ export default function LoginForm(){
         <Form onSubmit={autenticarUsuario}>
             <div className="text-center">
                 <img
-                href="/"
                 src="/logo.png"
+                href="/"
                 />
             </div>
             <Form.Group className="mb-4">
