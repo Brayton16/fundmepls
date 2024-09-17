@@ -20,7 +20,7 @@ export default function LoginForm(){
         if(rawFormData.Email !== "admin@itcr.ac.cr"){ //process.env.ADMIN_EMAIL
             //verificar si es un usuario normal
             try {
-                const response = await fetch('https://fundmepls.vercel.app/users/login', {
+                const response = await fetch('http://localhost:3001/users/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export default function LoginForm(){
                     alert(data.msg || 'Error en la autenticación');
                 }
 
-                const response2 = await fetch('https://fundmepls.vercel.app/users/current', {
+                const response2 = await fetch('http://localhost:3001/users/current', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
