@@ -1,8 +1,5 @@
 
-
-export default function Login(){
-
-
+export default function usuarios(){
     return(
         <main className="m-3">
             <div className="container">
