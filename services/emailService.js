@@ -5,7 +5,7 @@ import brevo from "@getbrevo/brevo";;
 
 const appName = "FundMePls" 
 const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, "a");
+apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
   
 export const sendRegisterEmail = async (user) => {
 
