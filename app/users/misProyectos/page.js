@@ -3,11 +3,213 @@ import React, { useState, useEffect } from 'react';
 import UserNavBar from "@/components/userNavbar";
 
 
+
 export default function misProyectos() {
+
+    const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
+    const [query, setQuery] = useState('');
+    const [proyectos, setProyectos] = useState([]);
+    const [categorias, setCategorias] = useState(['Tecnología', 'Salud', 'Educación', 'Arte', 'Energía']); // Ejemplo de categorías
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+    const [mostrarCategorias, setMostrarCategorias] = useState(false); // Estado para mostrar/ocultar el menú de categorías
+    const [showMontoInput, setShowMontoInput] = useState(false); // Mostrar campo para monto
+    const [montoRecaudado, setMontoRecaudado] = useState(''); // Valor del monto recaudado
+    const [showFechaInput, setShowFechaInput] = useState(false); // Mostrar campo para fecha
+    const [fechaLimite, setFechaLimite] = useState(''); // Valor de la fecha límite
+    //const [userID, setUserID] = useState(null); // Estado para almacenar el userID
+
+    
+    const obtenerUserID = () => {
+        fetch(`http://localhost:3001/users/current`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("jaja", data, "user", data.UserID); // Verifica los datos recibidos
+                setUserID(data.UserID); // Actualiza el userID en el estado
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+    
+
+    const buscarProyectos = (query) => {
+        console.log("Lo que sea", userID)
+
+        fetch(`http://localhost:3001/proyecto?userID=${userID}&query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    const buscarProyectosPorCategoria = (query) => {
+        console.log(query);
+        fetch(`http://localhost:3001/proyecto/categoria?userID=${userID}&query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    const buscarProyectosPorMontoRecaudado = (query) => {
+        console.log(query);
+        fetch(`http://localhost:3001/proyecto/recaudado?userID=${userID}&query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    const buscarProyectosPorFechaLimite = (query) => {
+        console.log(query);
+        fetch(`http://localhost:3001/proyecto/fechaLimite?userID=${userID}&query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    useEffect(() => {
+        obtenerUserID();
+    }, []); 
+
+    useEffect(() => {
+        
+        if(userID !== 0){
+            if (query) {
+                buscarProyectos(query);
+            } else if (categoriaSeleccionada) {
+                buscarProyectosPorCategoria(categoriaSeleccionada);
+            } else if (montoRecaudado) {
+                buscarProyectosPorMontoRecaudado(montoRecaudado);
+            }else if (fechaLimite) {
+                buscarProyectosPorFechaLimite(fechaLimite);
+            } else {
+                buscarProyectos(query);
+            }
+        }
+    }, [userID, query, categoriaSeleccionada, montoRecaudado, fechaLimite]);
+
+    const handleSearchChange = (e) => {
+        setQuery(e.target.value);
+        setCategoriaSeleccionada(''); // Limpiar la categoría cuando se busca por nombre
+        setMontoRecaudado('');
+        setFechaLimite('');
+    };
+
+    const toggleCategorias = () => {
+        setMostrarCategorias(!mostrarCategorias); // Mostrar o ocultar las categorías
+    };
+
+    const handleCategoriaClick = (categoria) => {
+        if (categoriaSeleccionada === categoria) {
+            setCategoriaSeleccionada(null); // Deseleccionar si ya está seleccionada
+        } else {
+            setCategoriaSeleccionada(categoria); // Seleccionar nueva categoría
+            setQuery(''); // Limpiar la búsqueda por nombre cuando se selecciona una categoría
+            setMontoRecaudado('');
+            setFechaLimite('');
+        }
+    };
+
+
+
+    const toggleMontoInput = () => {
+        setShowMontoInput(!showMontoInput);
+    };
+
+    const handleMontoChange = (e) => {
+        setMontoRecaudado(e.target.value);
+        setCategoriaSeleccionada(''); 
+        setQuery(''); // Limpiar la búsqueda por nombre cuando se selecciona una categoría
+        setFechaLimite(''); 
+    };
+
+
+    const toggleFechaInput = () => {
+        setShowFechaInput(!showFechaInput);
+    };
+    const handleFechaChange = (e) => {
+        setFechaLimite(e.target.value);
+        setCategoriaSeleccionada(''); 
+        setQuery(''); // Limpiar la búsqueda por nombre cuando se selecciona una categoría
+        setMontoRecaudado('');
+    };
+
+    // Estilos en línea
+    const containerStyle = {
+        padding: '20px',
+        backgroundColor: '#f8f9fa',
+        minHeight: '100vh'
+    };
+
+    const galleryStyle = {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '20px',
+        justifyContent: 'center'
+    };
+
+    const cardStyle = {
+        backgroundColor: '#fff',
+        border: '1px solid #ddd',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        padding: '15px',
+        width: '300px',
+        textAlign: 'center',
+        transition: 'transform 0.2s',
+        cursor: 'pointer'
+    };
+
+    const cardHoverStyle = {
+        transform: 'scale(1.05)'
+    };
+
+    const imgStyle = {
+        maxWidth: '100%',
+        borderRadius: '8px',
+        marginBottom: '10px'
+    };
+
+    const titleStyle = {
+        color: '#333',
+        fontSize: '1.5rem',
+        marginBottom: '10px'
+    };
+
+    const textStyle = {
+        color: '#666',
+        fontSize: '1rem',
+        marginBottom: '8px'
+    };
+
+    
+    const categoriaStyle = {
+        padding: '10px',
+        cursor: 'pointer',
+        backgroundColor: '#fff',
+        border: '1px solid #ddd',
+        marginBottom: '5px',
+        borderRadius: '5px',
+    };
+
+    const categoriaSeleccionadaStyle = {
+        ...categoriaStyle,
+        backgroundColor: '#007bff', // Cambiar el color cuando está seleccionada
+        color: '#fff',
+    };
+
+
     return (
-        <main>
-            <h1>Hola</h1>
-            {/* <section className="vh-100">
+        <main style={{ color: "white" }}>
+            <section className="vh-100">
                 <div className="container py-5 h-100">
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
@@ -28,9 +230,9 @@ export default function misProyectos() {
                                             </div>
                                         ))}
                                     </div>
-                                )} */}
+                                )}
                                 {/* Filtro de Monto Recaudado */}
-                                {/* <div className="d-flex align-items-center">
+                                <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleMontoInput} style={{ cursor: 'pointer' }}>
                                         Monto Recaudado
                                     </h3>
@@ -50,9 +252,9 @@ export default function misProyectos() {
                                             }}
                                         />
                                     </div>
-                                )} */}
+                                )}
                                 {/* Filtro de Fecha Límite */}
-                                {/* <div className="d-flex align-items-center">
+                                <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleFechaInput} style={{ cursor: 'pointer' }}>
                                         Fecha Límite
                                     </h3>
@@ -85,10 +287,10 @@ export default function misProyectos() {
                                         value={query}
                                         onChange={handleSearchChange}
                                     />
-                                </form> */}
+                                </form>
 
                                 {/* Contenedor donde se mostrarán los proyectos */}
-                                {/* <div id="proyecto-container" style={containerStyle}>
+                                <div id="proyecto-container" style={containerStyle}>
                                     <div style={galleryStyle}>
                                         {proyectos.length > 0 ? (
                                             proyectos.map((proyecto) => (
@@ -106,6 +308,7 @@ export default function misProyectos() {
                                                     <h3 style={titleStyle}>{proyecto.ProjectName}</h3>
                                                     <p style={textStyle}>Descripción: {proyecto.ProjectDescription}</p>
                                                     <p style={textStyle}>Objetivo de Financiamiento: {proyecto.FundingGoal}</p>
+                                                    <p style={textStyle}>Monto Recaudado: {proyecto.CurrentCollection}</p>
                                                     <p style={textStyle}>Categoría: {proyecto.Category}</p>
                                                     <p style={textStyle}>Fecha Límite de Financiamiento: {new Date(proyecto.FundingDeadline).toLocaleDateString()}</p>
                                                 </div>
@@ -119,7 +322,7 @@ export default function misProyectos() {
                         </div>
                     </div>
                 </div>
-            </section> */}
+            </section>
         </main>
     );
 }

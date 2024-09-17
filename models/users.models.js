@@ -395,3 +395,51 @@ export const donationsCount = async (req, res) => {
         res.send(error.message);
     }
 }   
+
+
+export const updateUserCurrency = async (req, res) => {
+    console.log(req.body)
+    const {userID} = req.body;
+
+    if (userID == null){
+        return res.status(400).json({ msg: "Error: Informacion incompleta" });
+    }
+
+    try {
+        const pool = await getConnection();
+        const result = await pool
+        .request()
+        .input("UserID", sql.Int, userID)
+        .query(
+            "UPDATE CurrentInfo SET UserID = @userID WHERE CurrentID = 1"
+        );
+ 
+    res.json(result.recordset);
+    
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+}
+
+export const getUserCurrent = async (req, res) =>{
+
+    try {
+        const pool = await getConnection();
+ 
+        const result = await pool
+        .request()
+        .query(
+            "SELECT UserID FROM CurrentInfo WHERE CurrentID = 1"
+        );   
+                    
+        const userInfo = result.recordset[0];
+
+        // Respuesta exitosa en formato JSON
+        res.json(userInfo);
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+}

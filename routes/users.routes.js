@@ -1,5 +1,5 @@
 import {Router} from "express"
-import {activeUserCount,  addUserMoney,  changeUserState, createUser, donationsCount, getAllDonations, getUserDonations, login, makeDonation, readUser, readUsers, updateUser} from "../models/users.models.js"
+import {activeUserCount,  addUserMoney,  changeUserState, createUser, donationsCount, getAllDonations, getUserCurrent, getUserDonations, login, makeDonation, readUser, readUsers, updateUser, updateUserCurrency} from "../models/users.models.js"
 
 const router = Router(); 
 
@@ -19,5 +19,8 @@ router.get("/users/donation/all", getAllDonations);
 router.get("/users/donation/count", donationsCount);
 
 router.post("/users/login", login);
+
+router.get("/users/current", getUserCurrent);
+router.put("/users/current", updateUserCurrency);
 
 export default router 
