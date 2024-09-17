@@ -29,11 +29,6 @@ export default function signUp(){
             alert("El correo no corresponde al dominio estudiantec");
             return;
         }
-
-        if($(rawFormData.cedula.length()) <= 9){
-            alert("El largo de la cédula no corresponde");
-            return;
-        }
         
         fetch('http://fundmepls.vercel.app/users', {
             method: 'POST',
