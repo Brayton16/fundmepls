@@ -208,3 +208,22 @@ export const deleteProyect = async (req, res) =>{
         res.send(error.message);
     }
 };
+
+export const activeProjectsCount = async (req, res) => {
+    try {
+        const pool = await getConnection();
+        const result = await pool
+        .request()
+        .query(
+            "SELECT COUNT(*) AS ActiveProjectCount FROM Projects WHERE IsActive = 1"
+        );
+        
+        const activeProjectCount = result.recordset[0].ActiveProjectCount;
+        //res.json(result.recordset); // Envía los datos como JSON
+        res.json({ activeProjectCount });
+    
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+}

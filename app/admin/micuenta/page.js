@@ -21,7 +21,7 @@ export default function micuenta() {
     };
 
     const contarProyectosActivos = () => {
-        fetch(`http://localhost:3001/projects/active/count`) // Asegúrate de que esta URL sea correcta
+        fetch(`http://localhost:3001/proyecto/active/count`) // Asegúrate de que esta URL sea correcta
             .then(response => response.json())
             .then(data => {
                 console.log("Project Data:", data); // Verifica los datos recibidos
@@ -31,11 +31,11 @@ export default function micuenta() {
     };
 
     const contarDonaciones = () => {
-        fetch(`http://localhost:3001/donations/count`) // Asegúrate de que esta URL sea correcta
+        fetch(`http://localhost:3001/users/donation/count`) // Asegúrate de que esta URL sea correcta
             .then(response => response.json())
             .then(data => {
                 console.log("Donation Data:", data); // Verifica los datos recibidos
-                setNDonaciones(data.donationCount); // Actualiza el número de donaciones
+                setNDonaciones(data.donationsCount); // Actualiza el número de donaciones
             })
             .catch(error => console.error('Error fetching donation count:', error));
     };

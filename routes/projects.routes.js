@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {getProyects, getProyect, createProyect, updateProyect, deleteProyect, getProyectsByCategory, getProyectsByLimitDate, getProyectsByFundingGoal, getProyectsByCollection}  from "../models/projects.models.js";
+import {getProyects, getProyect, createProyect, updateProyect, deleteProyect, getProyectsByCategory, getProyectsByLimitDate, getProyectsByFundingGoal, getProyectsByCollection, activeProjectsCount}  from "../models/projects.models.js";
 
 const router = Router();
 
@@ -17,6 +17,8 @@ router.post('/proyecto', createProyect);
 router.put('/proyecto', updateProyect);
 
 router.delete('/proyecto', deleteProyect);
+
+router.get("/proyecto/active/count", activeProjectsCount);
 
 
 export default router;
