@@ -30,7 +30,7 @@ export default function signUp(){
             return;
         }
 
-        if(rawFormData.cedula.length() <= 9){
+        if($(rawFormData.cedula.length()) <= 9){
             alert("El largo de la cédula no corresponde");
             return;
         }
