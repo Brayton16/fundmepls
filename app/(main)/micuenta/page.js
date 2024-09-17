@@ -2,6 +2,7 @@
 import UserNavBar from "@/components/userNavbar";
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import { Placeholder } from "react-bootstrap";
 
 export default function micuenta(){
     return(
@@ -32,6 +33,7 @@ export default function micuenta(){
                                             <img
                                             href = "/"
                                             src = "/goofycoin.png"
+                                            alt="Goofycoins"
                                             width={70}
                                             height={70}
                                             />
@@ -43,12 +45,58 @@ export default function micuenta(){
                         </div>
 
                         <div className="row m-0">
-                            <div className="col-6" style={{background: "#49454F"}}>
-                                <h1>Mi bombo</h1>
+                            <div className="col-6 text-white pt-3" style={{background: "#49454F"}}>
+                                <div className=" row m-0">
+                                    <div className="col-7">
+                                        <h3>Nombre:</h3>
+                                        <h5>Placeholder</h5>
+                                        <br></br>
+                                        <h3>Apellidos:</h3>
+                                        <h5>Placeholder</h5>
+                                        <br></br>
+                                        <h3>Email:</h3>
+                                        <h5>Placeholder</h5>
+                                        <br></br>
+                                        <h3>Contraseña:</h3>
+                                        <h5>Placeholder</h5>
+                                        <br></br>
+                                        <h3>Teléfono:</h3>
+                                        <h5>Placeholder</h5>
+                                        <br></br>
+                                        <h3>Cédula:</h3>
+                                        <h5>Placeholder</h5>
+                                    </div>
+                                    <div className="col-5">
+                                    <img
+                                        href = "/"
+                                        src = "/default.jpg"
+                                        width={170}
+                                        height={170}
+                                        style={{borderRadius: "50%"}}
+                                        alt="Foto de perfil"
+                                        />
+                                    
+                                    <p className="text-primary mt-3">Cambiar foto de perfil</p>
+                                    </div>
+                                </div>
+                                
+
                             </div>
 
-                            <div className="col-6" style={{background: "#D9D9D9"}}>
-                                <h1>Mi bombo</h1>
+                            <div className="col-6 pt-3" style={{background: "#D9D9D9"}}>
+                                <h3>Operaciones debilletera:</h3>
+                                <h4 className="p-2 text-primary">Recargar Goofycoins</h4>
+                                <h4 className="p-2 text-primary">Historial de Transacciones</h4>
+                                <br></br>
+                                <br></br>
+                                <h3>Cambiar Preferencias</h3>
+                                <h4 className="p-2 text-primary">Notificaciones al correo</h4>
+                                <h4 className="p-2 text-primary">Mostrar lista negra</h4>
+                                <br></br>
+                                <br></br>
+                                <h3>Soporte</h3>
+                                <h4 className="p-2 text-primary">Ayuda</h4>
+                                <h4 className="p-2 text-primary">Soporte</h4>
                             </div>
 
                         </div>
