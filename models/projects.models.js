@@ -6,7 +6,9 @@ import sql from 'mssql';
 
 export const getProyects = async (req, res) => {
     const { query } = req.query; // Obtiene el parámetro de consulta de la URL
+
     try {
+
         const pool = await getConnection(); // Asumiendo que esta es tu función para obtener conexión a la base de datos
         const result = await pool.request()
             .input("SearchQuery", sql.NVarChar, query || '') // Usa el parámetro de consulta de la búsqueda, o una cadena vacía si no se proporciona
@@ -16,7 +18,63 @@ export const getProyects = async (req, res) => {
         res.status(500).send(error.message); // Maneja errores
     }
 };
+ 
+export const getProyectsByCategory = async (req, res) => {
+    const { query } = req.query; // Obtiene el parámetro de consulta de la URL
 
+    try {
+        const pool = await getConnection(); // Asumiendo que esta es tu función para obtener conexión a la base de datos
+        const result = await pool.request()
+            .input("SearchQuery", sql.NVarChar, query || '') // Usa el parámetro de consulta de la búsqueda, o una cadena vacía si no se proporciona
+            .execute('GetActiveProjectsByCategory');
+        res.json(result.recordset); // Envía los datos como JSON
+    } catch (error) {
+        res.status(500).send(error.message); // Maneja errores
+    }
+}
+
+export const getProyectsByFundingGoal = async (req, res) => {
+    const { query } = req.query; // Obtiene el parámetro de consulta de la URL
+
+    try {
+        const pool = await getConnection(); // Asumiendo que esta es tu función para obtener conexión a la base de datos
+        const result = await pool.request()
+            .input("SearchQuery", sql.NVarChar, query || '') // Usa el parámetro de consulta de la búsqueda, o una cadena vacía si no se proporciona
+            .execute('GetActiveProjectsByFundingGoal');
+        res.json(result.recordset); // Envía los datos como JSON
+    } catch (error) {
+        res.status(500).send(error.message); // Maneja errores
+    }
+}
+
+export const getProyectsByCollection = async (req, res) => {
+    const { query } = req.query; // Obtiene el parámetro de consulta de la URL
+    console.log("getProyectsByCollection", query)
+
+    try {
+        const pool = await getConnection(); // Asumiendo que esta es tu función para obtener conexión a la base de datos
+        const result = await pool.request()
+            .input("SearchQuery", sql.NVarChar, query || '') // Usa el parámetro de consulta de la búsqueda, o una cadena vacía si no se proporciona
+            .execute('GetActiveProjectsByCollection');
+        res.json(result.recordset); // Envía los datos como JSON
+    } catch (error) {
+        res.status(500).send(error.message); // Maneja errores
+    }
+}
+
+export const getProyectsByLimitDate = async (req, res) => {
+    const { query } = req.query; // Obtiene el parámetro de consulta de la URL
+
+    try {
+        const pool = await getConnection(); // Asumiendo que esta es tu función para obtener conexión a la base de datos
+        const result = await pool.request()
+            .input("SearchQuery", sql.DateTime, query || '') // Usa el parámetro de consulta de la búsqueda, o una cadena vacía si no se proporciona
+            .execute('GetActiveProjectsByLimitDate');
+        res.json(result.recordset); // Envía los datos como JSON
+    } catch (error) {
+        res.status(500).send(error.message); // Maneja errores
+    }
+}
 
 export const getProyect = async (req, res) =>{
     const {id} = req.body;

@@ -6,6 +6,13 @@ import UserNavBar from "@/components/userNavbar";
 export default function Homepage() {
     const [query, setQuery] = useState('');
     const [proyectos, setProyectos] = useState([]);
+    const [categorias, setCategorias] = useState(['Tecnología', 'Salud', 'Educación', 'Arte', 'Energía']); // Ejemplo de categorías
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+    const [mostrarCategorias, setMostrarCategorias] = useState(false); // Estado para mostrar/ocultar el menú de categorías
+    const [showMontoInput, setShowMontoInput] = useState(false); // Mostrar campo para monto
+    const [montoRecaudado, setMontoRecaudado] = useState(''); // Valor del monto recaudado
+    const [showFechaInput, setShowFechaInput] = useState(false); // Mostrar campo para fecha
+    const [fechaLimite, setFechaLimite] = useState(''); // Valor de la fecha límite
 
     const buscarProyectos = (query) => {
         fetch(`http://localhost:3001/proyectos?query=${query}`)
@@ -17,16 +24,98 @@ export default function Homepage() {
             .catch(error => console.error('Error fetching proyectos:', error));
     };
 
+    const buscarProyectosPorCategoria = (query) => {
+        console.log(query)
+        fetch(`http://localhost:3001/proyectos/categoria?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    const buscarProyectosPorMontoRecaudado = (query) => {
+        console.log(query)
+        fetch(`http://localhost:3001/proyectos/recaudado?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    const buscarProyectosPorFechaLimite = (query) => {
+        console.log(query)
+        fetch(`http://localhost:3001/proyectos/fechaLimite?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Verifica los datos recibidos
+                setProyectos(data);  // Actualiza el estado con los proyectos recibidos
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
+
+    
     useEffect(() => {
         if (query) {
             buscarProyectos(query);
-        }else{
+        } else if (categoriaSeleccionada) {
+            buscarProyectosPorCategoria(categoriaSeleccionada);
+        } else if (montoRecaudado) {
+            buscarProyectosPorMontoRecaudado(montoRecaudado);
+        }else if (fechaLimite) {
+            buscarProyectosPorFechaLimite(fechaLimite);
+        } else {
             buscarProyectos(query);
         }
-    }, [query]);
+    }, [query, categoriaSeleccionada, montoRecaudado]);
 
     const handleSearchChange = (e) => {
         setQuery(e.target.value);
+        setCategoriaSeleccionada(''); // Limpiar la categoría cuando se busca por nombre
+        setMontoRecaudado('');
+        setFechaLimite('');
+    };
+
+    const toggleCategorias = () => {
+        setMostrarCategorias(!mostrarCategorias); // Mostrar o ocultar las categorías
+    };
+
+    const handleCategoriaClick = (categoria) => {
+        if (categoriaSeleccionada === categoria) {
+            setCategoriaSeleccionada(null); // Deseleccionar si ya está seleccionada
+        } else {
+            setCategoriaSeleccionada(categoria); // Seleccionar nueva categoría
+            setQuery(''); // Limpiar la búsqueda por nombre cuando se selecciona una categoría
+            setMontoRecaudado('');
+            setFechaLimite('');
+        }
+    };
+
+
+
+    const toggleMontoInput = () => {
+        setShowMontoInput(!showMontoInput);
+    };
+
+    const handleMontoChange = (e) => {
+        setMontoRecaudado(e.target.value);
+        setCategoriaSeleccionada(''); 
+        setQuery(''); // Limpiar la búsqueda por nombre cuando se selecciona una categoría
+        setFechaLimite(''); 
+    };
+
+
+    const toggleFechaInput = () => {
+        setShowFechaInput(!showFechaInput);
+    };
+    const handleFechaChange = (e) => {
+        setFechaLimite(e.target.value);
+        setCategoriaSeleccionada(''); 
+        setQuery(''); // Limpiar la búsqueda por nombre cuando se selecciona una categoría
+        setMontoRecaudado('');
     };
 
     // Estilos en línea
@@ -77,6 +166,23 @@ export default function Homepage() {
         marginBottom: '8px'
     };
 
+    
+    const categoriaStyle = {
+        padding: '10px',
+        cursor: 'pointer',
+        backgroundColor: '#fff',
+        border: '1px solid #ddd',
+        marginBottom: '5px',
+        borderRadius: '5px',
+    };
+
+    const categoriaSeleccionadaStyle = {
+        ...categoriaStyle,
+        backgroundColor: '#007bff', // Cambiar el color cuando está seleccionada
+        color: '#fff',
+    };
+    
+
     return (
         <main style={{ color: "white" }}>
             <header><UserNavBar /></header>
@@ -85,34 +191,79 @@ export default function Homepage() {
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
                             <div className="col-3 p-0 text-dark">
-                                <h2 className="p-3">Filtros</h2>
-                                <div className="d-flex align-items-center">
-                                    <h3 className="p-2">Todas las categorias</h3>
-                                    <input type="checkbox" className="form-check-input"></input>
-                                </div>
-                                <div className="d-flex align-items-center">
-                                    <h3 className="p-2">Todos los montos</h3>
-                                    <input type="checkbox" className="form-check-input"></input>
-                                </div>
-                                <div className="d-flex align-items-center">
-                                    <h3 className="p-2">Todas las fechas</h3>
-                                    <input type="checkbox" className="form-check-input"></input>
-                                </div>
-
-                                <br></br>
-
-                                <h2 className=" p-3">Personalizar</h2>
+                                
+                                <h2 className=" p-3">Filtros</h2>
 
                                 <div className="d-flex align-items-center">
-                                    <h3 className="p-1">Categorias</h3>
+                                    <h3 className="p-1" onClick={toggleCategorias} style={{ cursor: 'pointer' }}>Categorías</h3>
                                 </div>
+                                {mostrarCategorias && (
+                                    <div>
+                                        {categorias.map((categoria) => (
+                                            <div
+                                                key={categoria}
+                                                style={categoriaSeleccionada === categoria ? categoriaSeleccionadaStyle : categoriaStyle}
+                                                onClick={() => handleCategoriaClick(categoria)}
+                                            >
+                                                {categoria}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            
+                                
+
+                                {/* Filtro de Monto Recaudado */}
                                 <div className="d-flex align-items-center">
-                                    <h3 className="p-1">Montos</h3>
+                                    <h3 className="p-1" onClick={toggleMontoInput} style={{ cursor: 'pointer' }}>
+                                        Monto Recaudado
+                                    </h3>
                                 </div>
+                                {showMontoInput && (
+                                    <div className="pl-3">
+                                        <input
+                                            type="number"
+                                            value={montoRecaudado}
+                                            onChange={handleMontoChange}
+                                            placeholder="Ingresar monto"
+                                            style={{
+                                                padding: '5px',
+                                                width: '100%',
+                                                border: '1px solid #ddd',
+                                                borderRadius: '4px'
+                                            }}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Filtro de Fecha Límite */}
                                 <div className="d-flex align-items-center">
-                                    <h3 className="p-1">Fechas</h3>
+                                    <h3 className="p-1" onClick={toggleFechaInput} style={{ cursor: 'pointer' }}>
+                                        Fecha Límite
+                                    </h3>
                                 </div>
+                                {showFechaInput && (
+                                    <div className="pl-3">
+                                        <input
+                                            type="date"
+                                            value={fechaLimite}
+                                            onChange={handleFechaChange}
+                                            placeholder="Seleccionar fecha"
+                                            style={{
+                                                padding: '5px',
+                                                width: '100%',
+                                                border: '1px solid #ddd',
+                                                borderRadius: '4px'
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            
+                                
+        
+
                             </div>
+
                             <div className="col-9 p-4">
                                 <form className="d-flex" role="search">
                                     <input
