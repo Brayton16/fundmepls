@@ -6,7 +6,8 @@ import UserNavBar from "@/components/userNavbar";
 export default function misProyectos() {
     return (
         <main style={{ color: "white" }}>
-            <section className="vh-100">
+            <h1>Hola</h1>
+            {/* <section className="vh-100">
                 <div className="container py-5 h-100">
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
@@ -27,9 +28,9 @@ export default function misProyectos() {
                                             </div>
                                         ))}
                                     </div>
-                                )}
+                                )} */}
                                 {/* Filtro de Monto Recaudado */}
-                                <div className="d-flex align-items-center">
+                                {/* <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleMontoInput} style={{ cursor: 'pointer' }}>
                                         Monto Recaudado
                                     </h3>
@@ -49,9 +50,9 @@ export default function misProyectos() {
                                             }}
                                         />
                                     </div>
-                                )}
+                                )} */}
                                 {/* Filtro de Fecha Límite */}
-                                <div className="d-flex align-items-center">
+                                {/* <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleFechaInput} style={{ cursor: 'pointer' }}>
                                         Fecha Límite
                                     </h3>
@@ -84,10 +85,10 @@ export default function misProyectos() {
                                         value={query}
                                         onChange={handleSearchChange}
                                     />
-                                </form>
+                                </form> */}
 
                                 {/* Contenedor donde se mostrarán los proyectos */}
-                                <div id="proyecto-container" style={containerStyle}>
+                                {/* <div id="proyecto-container" style={containerStyle}>
                                     <div style={galleryStyle}>
                                         {proyectos.length > 0 ? (
                                             proyectos.map((proyecto) => (
@@ -118,7 +119,7 @@ export default function misProyectos() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
         </main>
     );
 }
