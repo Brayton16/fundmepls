@@ -45,7 +45,7 @@ export default function Homepage() {
             })
             .catch(error => console.error('Error fetching proyectos:', error));
     };
-
+    
     const buscarProyectosPorFechaLimite = (query) => {
         console.log(query)
         fetch(`http://localhost:3001/proyectos/fechaLimite?query=${query}`)
@@ -70,7 +70,7 @@ export default function Homepage() {
         } else {
             buscarProyectos(query);
         }
-    }, [query, categoriaSeleccionada, montoRecaudado]);
+    }, [query, categoriaSeleccionada, montoRecaudado, fechaLimite]);
 
     const handleSearchChange = (e) => {
         setQuery(e.target.value);
