@@ -30,7 +30,7 @@ export default function signUp(){
             return;
         }
         
-        fetch('http://fundmepls.vercel.app/users', {
+        fetch('https://fundmepls.vercel.app/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
