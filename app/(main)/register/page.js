@@ -21,7 +21,7 @@ export default function signUp(){
         };
 
         if(rawFormData.contrasena != rawFormData.confirmar){
-            alert("Las contraseñas no coincides")
+            alert("Las contraseñas no coinciden")
             return;
         }
         
@@ -47,6 +47,7 @@ export default function signUp(){
         .then(data => {
             console.log(data);
             alert("Usuario registrado con éxito")
+            router.push("/login");
         })
         .catch(error => {
             console.error('Error:', error);
