@@ -137,8 +137,7 @@ export const updateUser = async (req, res) => {
 };
 
 export const readUser = async (req, res) =>{
-    console.log(req.body)
-    const {userID} = req.body;
+    const {userID } = req.query; // Obtiene los parámetros de consulta de la URL
 
     // se verifica si algun campo requerido no se ingreso
     if (
@@ -159,9 +158,7 @@ export const readUser = async (req, res) =>{
         
         if (result.rowsAffected[0] === 0) return res.sendStatus(404);
                 
-        const userInfo = result.recordsets[0];
-    
-        res.json(result.recordset);
+        res.json(result.recordset); // Envía los datos como JSON
 
     } catch (error) {
         res.status(500);
