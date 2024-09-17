@@ -217,7 +217,7 @@ export const activeUserCount = async (req, res) => {
         );
         
         const activeUserCount = result.recordset[0].ActiveUserCount;
-
+        //res.json(result.recordset); // Envía los datos como JSON
         res.json({ activeUserCount });
     
     } catch (error) {
