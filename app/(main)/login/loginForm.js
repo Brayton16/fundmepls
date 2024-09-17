@@ -20,7 +20,7 @@ export default function LoginForm(){
         if(rawFormData.Email !== "admin@itcr.ac.cr"){ //process.env.ADMIN_EMAIL
             //verificar si es un usuario normal
             try {
-                const response = await fetch('http://fundmepls.vercel.app/users/login', {
+                const response = await fetch('https://fundmepls.vercel.app/users/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
