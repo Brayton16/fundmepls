@@ -190,10 +190,8 @@ export default function Homepage() {
                 <div className="container py-5 h-100">
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
-                            <div className="col-3 p-0 text-dark">
-                                
+                            <div className="col-3 p-0 text-dark"> 
                                 <h2 className="p-1 py-3">Filtros</h2>
-
                                 <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleCategorias} style={{ cursor: 'pointer' }}>Categorías</h3>
                                 </div>
@@ -210,9 +208,6 @@ export default function Homepage() {
                                         ))}
                                     </div>
                                 )}
-                            
-                                
-
                                 {/* Filtro de Monto Recaudado */}
                                 <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleMontoInput} style={{ cursor: 'pointer' }}>
@@ -235,7 +230,6 @@ export default function Homepage() {
                                         />
                                     </div>
                                 )}
-
                                 {/* Filtro de Fecha Límite */}
                                 <div className="d-flex align-items-center">
                                     <h3 className="p-1" onClick={toggleFechaInput} style={{ cursor: 'pointer' }}>
@@ -258,10 +252,6 @@ export default function Homepage() {
                                         />
                                     </div>
                                 )}
-                            
-                                
-        
-
                             </div>
 
                             <div className="col-9 p-4">
