@@ -76,33 +76,18 @@ export const getProyectsByLimitDate = async (req, res) => {
     }
 }
 
-export const getProyect = async (req, res) =>{
-    const {id} = req.body;
+export const getProyect = async (req, res) => {
+    const { query, userID } = req.query; // Obtiene los parámetros de consulta de la URL
 
-    // se verifica si algun campo requerido no se ingreso
-    if (
-        id == null
-    ){ 
-        return res.status(400).json({ msg: "Error: Informacion incompleta" });
-    }
-
-    try{
-        const pool = await getConnection()
-        const result = await pool
-        .request()
-        .input("id", sql.Int, id)
-        .execute('GetActiveProjectByid')
-    
-
-        if(result.rowsAffected[0] === 0){
-            return res.status(404).json({message: "Proyecto no encontrado"}); 
-        }
-
-        return res.json(result.recordset[0]);
-    }
-    catch(error){
-        res.status(500);
-        res.send(error.message);
+    try {
+        const pool = await getConnection(); // Obtiene la conexión a la base de datos
+        const result = await pool.request()
+            .input("UserID", sql.Int, userID) // Agrega el parámetro de userID
+            .input("SearchQuery", sql.NVarChar, query || '') // Agrega el parámetro de búsqueda
+            .execute('GetActiveProject');
+        res.json(result.recordset); // Envía los datos como JSON
+    } catch (error) {
+        res.status(500).send(error.message); // Maneja errores
     }
 };
 
