@@ -34,23 +34,24 @@ export default function LoginForm(){
                 const data = await response.json();
     
                 if (response.ok) {
-                    console.log(data);
-                    router.push("/users/homepage");  // Redirigir al usuario a la página de inicio
+                    console.log("Datos en data:", data);
+                    console.log("id usuario: ", data.userID)
+                    const response2 = await fetch('http://localhost:3001/users/current', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userID: data.userID,
+                        })
+                    });
+                    //router.push("/users/homepage");  // Redirigir al usuario a la página de inicio
                 } else {
                     // Mostrar mensaje de error al usuario
                     console.error(data.msg || 'Error en la autenticación');
                     alert(data.msg || 'Error en la autenticación');
                 }
-
-                const response2 = await fetch('http://localhost:3001/users/current', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        userID: data.UserID,
-                    })
-                });
+                
 
             } catch (error) {
                 console.error('Error:', error);
