@@ -263,11 +263,11 @@ export const addUserMoney = async (req, res) =>{
 
 export const makeDonation = async (req, res) =>{
     console.log(req.body)
-    const {donorID, projectID, amount} = req.body;
+    const {projectId, donacion, UserId} = req.body;
 
     // se verifica si algun campo requerido no se ingreso
     if (
-        donorID == null || projectID == null || amount == null
+        projectId == null || donacion == null || UserId == null
     ) {
         return res.status(400).json({ msg: "Error: Informacion incompleta" });
     }
@@ -277,9 +277,9 @@ export const makeDonation = async (req, res) =>{
  
         const result = await pool
         .request()
-        .input("DonorID", sql.Int, donorID)
-        .input("ProjectID", sql.Int, projectID)
-        .input("Amount", sql.Decimal, amount)
+        .input("DonorID", sql.Int, UserId)
+        .input("ProjectID", sql.Int, projectId)
+        .input("Amount", sql.Decimal, donacion)
         .execute('MakeDonation');   
         
         if (result.rowsAffected[0] === 0) return res.sendStatus(404);

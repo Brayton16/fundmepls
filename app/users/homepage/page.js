@@ -13,6 +13,20 @@ export default function Homepage() {
     const [montoRecaudado, setMontoRecaudado] = useState(''); // Valor del monto recaudado
     const [showFechaInput, setShowFechaInput] = useState(false); // Mostrar campo para fecha
     const [fechaLimite, setFechaLimite] = useState(''); // Valor de la fecha límite
+    const [selectedProyecto, setSelectedProyecto] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [donacion, setDonacion] = useState(''); // Estado para el monto de la donación
+    const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
+
+    const obtenerUserID = () => {
+        fetch(`http://localhost:3001/users/current`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("jaja", data, "user", data.UserID); // Verifica los datos recibidos
+                setUserID(data.UserID); // Actualiza el userID en el estado
+            })
+            .catch(error => console.error('Error fetching proyectos:', error));
+    };
 
     const buscarProyectos = (query) => {
         fetch(`http://localhost:3001/proyectos?query=${query}`)
@@ -118,6 +132,50 @@ export default function Homepage() {
         setMontoRecaudado('');
     };
 
+    const openModal = (proyecto) => {
+        setSelectedProyecto(proyecto);
+        setShowModal(true);
+    };
+    
+    const closeModal = () => {
+        setSelectedProyecto(null);
+        setShowModal(false);
+    };
+
+    const handleDonacion = (e) => {
+        setDonacion(e.target.value); // Actualiza el estado con el valor ingresado
+    };
+
+    const handleDonation = () => {
+
+        fetch('http://localhost:3001/users/donation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                projectId: selectedProyecto.ProjectID,
+                donacion: donacion,
+                UserId: userID
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Donación exitosa:', data);
+            // Puedes realizar alguna acción adicional aquí, como cerrar el modal
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error al realizar la donación:', error);
+        });
+        alert("Se realizo la donacion correctamente")
+        window.location.reload(); // O cualquier otra lógica para actualizar la UI
+    };
+
+    useEffect(() => {
+        obtenerUserID();
+    }, []); 
+
     // Estilos en línea
     const containerStyle = {
         padding: '20px',
@@ -182,6 +240,69 @@ export default function Homepage() {
         color: '#fff',
     };
     
+    const modalOverlayStyle = {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)', // Color más oscuro para el overlay
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000
+    };
+
+    const modalContentStyle = {
+        backgroundColor: '#ffffff', // Fondo blanco para el contenido
+        borderRadius: '10px',
+        padding: '20px',
+        maxWidth: '600px',
+        width: '90%',
+        position: 'relative',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' // Agrega sombra para destacar el modal
+    };
+
+    const closeButtonStyle = {
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        fontSize: '1.5rem',
+        color: '#ff0000', // Color rojo para el botón de cerrar
+        cursor: 'pointer',
+        backgroundColor: '#ffffff',
+        border: 'none',
+        borderRadius: '50%',
+        width: '30px',
+        height: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    };
+
+    const inputStyle = {
+        padding: '10px',
+        width: '100%',
+        marginBottom: '10px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        fontSize: '16px'
+    };
+
+    const buttonStyle = {
+        backgroundColor: '#007bff', // Color azul para el botón de donar
+        color: '#ffffff',
+        border: 'none',
+        padding: '10px 20px',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        transition: 'background-color 0.3s'
+    };
+
+    const buttonHoverStyle = {
+        backgroundColor: '#0056b3' // Color azul oscuro para el hover
+    };
 
     return (
         <main style={{ color: "white" }}>
@@ -275,6 +396,7 @@ export default function Homepage() {
                                                     style={cardStyle}
                                                     onMouseEnter={(e) => e.currentTarget.style.transform = cardHoverStyle.transform}
                                                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                                    onClick={() => openModal(proyecto)} // Abre el modal al hacer clic
                                                 >
                                                     <img
                                                         src={proyecto.MediaURL || "https://via.placeholder.com/150"}
@@ -292,6 +414,37 @@ export default function Homepage() {
                                             <p>No se encontraron proyectos</p>
                                         )}
                                     </div>
+                                    
+                                    {showModal && selectedProyecto && (
+                                    <div style={modalOverlayStyle}>
+                                        <div style={modalContentStyle}>
+                                            <span style={closeButtonStyle} onClick={closeModal}>&times;</span>
+                                            <h1 style={titleStyle}><strong>{selectedProyecto.ProjectName}</strong></h1>
+                                            <p style={titleStyle}><strong>Descripción:</strong> {selectedProyecto.ProjectDescription}</p>
+                                            <p style={titleStyle}><strong>Objetivo de Financiamiento:</strong> {selectedProyecto.FundingGoal}</p>
+                                            <p style={titleStyle}><strong>Dinero recaudado:</strong> {selectedProyecto.CurrentCollection}</p>
+                                            <p style={titleStyle}><strong>Categoría:</strong> {selectedProyecto.Category}</p>
+                                            <p style={titleStyle}><strong>Fecha Límite de Financiamiento:</strong> {new Date(selectedProyecto.FundingDeadline).toLocaleDateString()}</p>
+
+                                            <h3 style={titleStyle}>Realiza tu donación</h3>
+                                            <input
+                                                type="number"
+                                                placeholder="Monto de la donación"
+                                                value={donacion}
+                                                onChange={handleDonacion}
+                                                style={inputStyle}
+                                            />
+                                            <button 
+                                                style={buttonStyle}
+                                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
+                                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
+                                                onClick={handleDonation}
+                                            >
+                                                Donar
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                                 </div>
                             </div>
                         </div>
