@@ -7,7 +7,7 @@ import {sendRegisterEmail} from "@/services/emailService"
 export default function signUp(){
 
     async function ingresarUsuario(event) {
-        var error = false
+        var errorcito = false
         const formData = new FormData(event.target);
         event.preventDefault();
         const rawFormData = {
@@ -61,10 +61,10 @@ export default function signUp(){
         .catch(error => {
             console.error('Error:', error);
             alert("Hubo un problema al registrar al usuario");
-            const error = true
+            const errorcito = true
         });
         
-        if(!error){
+        if(!errorcito){
             const response = await sendRegisterEmail(
                 rawFormData.email, 
                 rawFormData.nombre

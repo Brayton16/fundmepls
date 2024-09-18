@@ -5,7 +5,7 @@ import {sendRegisterProyect} from "@/services/emailService"
 export default function CrearProyecto() {
 
     const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
-    var error = false
+    var errorcito = false
     const obtenerUserID = () => {
         fetch(`http://localhost:3001/users/current`)
             .then(response => response.json())
@@ -54,10 +54,10 @@ export default function CrearProyecto() {
         catch (error) {
             console.error('Error:', error);
             alert('Error al crear un proyecto');
-            error = true
+            errorcito = true
         }
 
-        if(!error){
+        if(!errorcito){
             const response = await sendRegisterProyect(
                 rawFormData.email, 
                 rawFormData.nombre
