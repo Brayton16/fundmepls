@@ -3,11 +3,11 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import {Form,  Button, FormGroup } from "react-bootstrap";
 import {sendRegisterEmail} from "@/services/emailService"
-import useRouter from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function signUp(){
     const router = useRouter();
-    
+
     async function ingresarUsuario(event) {
         var errorcito = false
         const formData = new FormData(event.target);
