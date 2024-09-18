@@ -172,13 +172,3 @@ export async function sendUpdateProyect (infoProyect) {
         console.error(error);
     }
 };
-
-
-// Exportar la función
-export default {
-    sendRegisterEmail,
-    sendGratitudeEmail,
-    sendDonationEmail,
-    sendRegisterProyect,
-    sendUpdateProyect
-  };
