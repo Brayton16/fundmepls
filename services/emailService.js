@@ -73,7 +73,7 @@ export async function sendGratitudeEmail(user){
     }
 }
 
-export const sendDonationEmail = async (info) => {
+export async function sendDonationEmail (info) {
 
     try { 
         const sendSmtpEmail = new SendSmtpEmail();
@@ -141,7 +141,7 @@ export async function sendRegisterProyect(infoProyect){
 };
 
 
-export const sendUpdateProyect = async (infoProyect) => {
+export async function sendUpdateProyect (infoProyect) {
 
     try { 
         const sendSmtpEmail = new SendSmtpEmail();
