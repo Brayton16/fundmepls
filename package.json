@@ -20,6 +20,7 @@
     "fundmepls": "file:",
     "morgan": "^1.10.0",
     "mssql": "^11.0.1",
+    "net": "^1.0.2",
     "next": "14.2.11",
     "react": "^18",
     "react-bootstrap": "^2.10.4",
@@ -30,12 +31,5 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.11",
     "nodemon": "^3.1.4"
-  },
-  "browser": {
-    "fs": false,
-    "path": false, 
-    "os": false, 
-    "net": false, 
-    "tls": false
   }
 }
