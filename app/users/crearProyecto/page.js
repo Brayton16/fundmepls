@@ -1,10 +1,11 @@
 "use client";  // Esto indica que es un Client Component
 import React, { useState, useEffect } from 'react';
+import {sendRegisterProyect} from "@/services/emailService"
 
 export default function CrearProyecto() {
 
     const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
-
+    const error = false
     const obtenerUserID = () => {
         fetch(`http://localhost:3001/users/current`)
             .then(response => response.json())
@@ -53,6 +54,14 @@ export default function CrearProyecto() {
         catch (error) {
             console.error('Error:', error);
             alert('Error al crear un proyecto');
+            error = true
+        }
+
+        if(!error){
+            const response = await sendRegisterProyect(
+                rawFormData.email, 
+                rawFormData.nombre
+            );
         }
 
         console.log(rawFormData);

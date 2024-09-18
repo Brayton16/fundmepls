@@ -12,14 +12,13 @@ const appName = "FundMePls"
 const apiInstance = new TransactionalEmailsApi();
 apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
   
-export const sendRegisterEmail = async (user) => {
-
+export async function sendRegisterEmail(correo, nombre) {
+    const sendSmtpEmail = new SendSmtpEmail();
     try { 
-        const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡Bienvenid@ a nuestra plataforma de crowdfunding FundMePls!";
         sendSmtpEmail.to = [
-        { email: user.email, name: user.nombre },
+        { email: correo, name: nombre },
         ];
         sendSmtpEmail.htmlContent = `
         <html>
@@ -42,7 +41,7 @@ export const sendRegisterEmail = async (user) => {
     }
 }
 
-export const sendGratitudeEmail = async (user) => {
+export async function sendGratitudeEmail(user){
 
     try { 
         const sendSmtpEmail = new SendSmtpEmail();
@@ -51,8 +50,6 @@ export const sendGratitudeEmail = async (user) => {
         sendSmtpEmail.to = [
         { email: user.donorEmail, name: user.donorFirstName },
         ];
-
-        console.log("Llega aqui ", user.donorEmail, user.donorFirstName)
 
         sendSmtpEmail.htmlContent = `
         <html>
@@ -112,7 +109,7 @@ export const sendDonationEmail = async (info) => {
     }
 }
 
-export const sendRegisterProyect = async (infoProyect) => {
+export async function sendRegisterProyect(infoProyect){
 
     try { 
         const sendSmtpEmail = new SendSmtpEmail();

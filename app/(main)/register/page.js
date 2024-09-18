@@ -2,10 +2,12 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import {Form,  Button, FormGroup } from "react-bootstrap";
+import {sendRegisterEmail} from "@/services/emailService"
 
 export default function signUp(){
 
     async function ingresarUsuario(event) {
+        const error = false
         const formData = new FormData(event.target);
         event.preventDefault();
         const rawFormData = {
@@ -47,20 +49,28 @@ export default function signUp(){
                 telefono: rawFormData.telefono,
                 contrasena: rawFormData.contrasena
             })
+            
                 
         })
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            alert("Usuario registrado con éxito")
+            alert("Usuario registrado con éxito");
             router.push("/login");
         })
         .catch(error => {
             console.error('Error:', error);
             alert("Hubo un problema al registrar al usuario");
+            const error = true
         });
         
-    
+        if(!error){
+            const response = await sendRegisterEmail(
+                rawFormData.email, 
+                rawFormData.nombre
+            );
+        }
+        
     console.log(rawFormData);
 
     }
