@@ -1,3 +1,4 @@
+"use server";
 import brevo from "@getbrevo/brevo";
 import {
     TransactionalEmailsApi,
