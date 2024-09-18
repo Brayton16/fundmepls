@@ -25,6 +25,7 @@ export default function CrearProyecto() {
             ubicacion: formData.get("ubicacion"),
             categoria: formData.get("categoria"), // Corrección: "categoria" en lugar de "categotia"
             dinero: formData.get("dinero"),
+            fechaHora: formData.get("fechaHora") ,
             historial: formData.get("historia")
         };
         try {
@@ -40,12 +41,14 @@ export default function CrearProyecto() {
                     ubicacion: rawFormData.ubicacion,
                     categoria: rawFormData.categoria,
                     dinero: rawFormData.dinero,
+                    fechaHora: rawFormData.fechaHora,
                     historial: rawFormData.historial
                 }) 
             });
 
             const data = await response.json();
             console.log(data); // Maneja la respuesta del servidor
+            alert("Proyecto creado exitosamente")
         } 
         catch (error) {
             console.error('Error:', error);
@@ -105,6 +108,14 @@ export default function CrearProyecto() {
                             <p>Indica la cantidad de dinero que necesita recaudar.</p>
                         </div>
                         <input className="col form-control" type="number" name="dinero" placeholder="Dinero" required /> {/* Cambiado a tipo "number" */}
+                    </div>
+
+                    <div className="row m-5">
+                        <div className="col-4">
+                            <h3>Fecha y Hora del Proyecto</h3>
+                            <p>Indica la fecha y hora relevante para tu proyecto.</p>
+                        </div>
+                        <input className="col form-control" type="datetime-local" name="fechaHora" required />
                     </div>
 
                     <div className="row m-5">

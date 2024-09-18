@@ -92,13 +92,13 @@ export const getProyect = async (req, res) => {
 };
 
 export const createProyect = async (req, res) => {
-    const { idUser, titulo, descripcion, ubicacion, categoria, dinero, historial } = req.body;
+    const { idUser, titulo, descripcion, ubicacion, categoria, dinero, fechaHora, historial } = req.body;
 
     console.log(req.body)
     // Se verifica si algún campo requerido no se ingresó
     if (
         idUser == null || titulo == null || descripcion == null || ubicacion == null 
-        || categoria == null || historial == null || dinero == null
+        || categoria == null || historial == null || dinero == null || fechaHora == null
     ){
         return res.status(400).json({ msg: "Error: Información incompleta" });
     }
@@ -112,6 +112,7 @@ export const createProyect = async (req, res) => {
             .input("FundingGoal", sql.Decimal, dinero)
             .input("Category", sql.NVarChar, categoria)
             .input("OwnerID", sql.Int, idUser)
+            .input("FundingDeadline", sql.DateTime, fechaHora)
             .output("FirstName", sql.NVarChar)
             .output("Email", sql.VarChar)
             .execute('InsertProject');
