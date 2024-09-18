@@ -94,11 +94,11 @@ export default function CrearProyecto() {
                             <p>Selecciona la categoría que mejor describa tu proyecto.</p>
                         </div>
                         <select className="col form-control" name="categoria" required>
-                            <option value="tecnologia">Tecnología</option>
-                            <option value="salud">Salud</option>
-                            <option value="educacion">Educación</option>
-                            <option value="arte">Arte</option>
-                            <option value="energia">Energía</option>
+                            <option value="Tecnología">Tecnología</option>
+                            <option value="Salud">Salud</option>
+                            <option value="Educación">Educación</option>
+                            <option value="Arte">Arte</option>
+                            <option value="Energía">Energía</option>
                         </select>
                     </div>
 
