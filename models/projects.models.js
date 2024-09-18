@@ -91,49 +91,47 @@ export const getProyect = async (req, res) => {
     }
 };
 
-export const createProyect = async (req, res) =>{
-    const {ProjectName, ProjectDescription, FundingGoal, FundingDeadline, MediaURL, Category, OwnerID} = req.body;
+export const createProyect = async (req, res) => {
+    const { idUser, titulo, descripcion, ubicacion, categoria, dinero, historial } = req.body;
 
-        // se verifica si algun campo requerido no se ingreso
-        if (
-            ProjectName == null || ProjectDescription == null || FundingGoal == null || FundingDeadline == null 
-            || MediaURL == null || Category == null || OwnerID == null
-        ){ 
-            return res.status(400).json({ msg: "Error: Informacion incompleta" });
-        }
-        
-    try{
-        const pool = await getConnection()
+    console.log(req.body)
+    // Se verifica si algún campo requerido no se ingresó
+    if (
+        idUser == null || titulo == null || descripcion == null || ubicacion == null 
+        || categoria == null || historial == null || dinero == null
+    ){
+        return res.status(400).json({ msg: "Error: Información incompleta" });
+    }
+
+    try {
+
+        const pool = await getConnection();
         const result = await pool.request()
-        .input("ProjectName", sql.NVarChar, ProjectName)
-        .input("ProjectDescription", sql.NVarChar, ProjectDescription)
-        .input("FundingGoal", sql.Decimal, FundingGoal)
-        .input("FundingDeadline", sql.DateTime, FundingDeadline)
-        .input("MediaURL", sql.NVarChar, MediaURL)
-        .input("Category", sql.NVarChar, Category)
-        .input("OwnerID", sql.Int, OwnerID)
-        .output("FirstName" , sql.NVarChar)
-        .output("Email", sql.VarChar)
-        .execute('InsertProject')
-
-        let firstName  = result.output.FirstName;
+            .input("ProjectName", sql.NVarChar, titulo)
+            .input("ProjectDescription", sql.NVarChar, descripcion)
+            .input("FundingGoal", sql.Decimal, dinero)
+            .input("Category", sql.NVarChar, categoria)
+            .input("OwnerID", sql.Int, idUser)
+            .output("FirstName", sql.NVarChar)
+            .output("Email", sql.VarChar)
+            .execute('InsertProject');
+        let firstName = result.output.FirstName;
         let email = result.output.Email;
 
-        // envia correo de registro de proyecto
-        await emailService.sendRegisterProyect({ProjectName, email, firstName});
-    
+        // Enviar correo de registro de proyecto
+        await emailService.sendRegisterProyect({ titulo, email, firstName });
+
         return res.status(201).json({
             message: "Proyecto registrado exitosamente.",
             firstName,
-            email, 
-            ProjectName
+            email,
+            titulo
         });
-    }
-    catch(error){
-        res.status(500);
-        res.send(error.message);
+    } catch (error) {
+        res.status(500).send(error.message); // Enviar mensaje de error
     }
 };
+
 
 export const updateProyect = async (req, res) =>{
     const {ProjectName, ProjectDescription, FundingGoal, FundingDeadline
