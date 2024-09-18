@@ -18,6 +18,7 @@ export async function sendRegisterEmail(correo, nombre) {
     try { 
 
         sendSmtpEmail.subject = "¡Bienvenid@ a nuestra plataforma de crowdfunding FundMePls!";
+        console.log(correo, nombre)
         sendSmtpEmail.to = [
         { email: correo, name: nombre },
         ];
