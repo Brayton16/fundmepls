@@ -11,7 +11,7 @@ import {
 
 const appName = "FundMePls" 
 const apiInstance = new TransactionalEmailsApi();
-apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.NEXT_PUBLIC_BREVO_API_KEY);
   
 export async function sendRegisterEmail(correo, nombre) {
     const sendSmtpEmail = new SendSmtpEmail();
