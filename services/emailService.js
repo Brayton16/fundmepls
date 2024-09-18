@@ -15,10 +15,12 @@ apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.NEXT_PUB
   
 export async function sendRegisterEmail(correo, nombre) {
     const sendSmtpEmail = new SendSmtpEmail();
+    console.logI("Email")
+    console.log(correo, nombre)
     try { 
 
         sendSmtpEmail.subject = "¡Bienvenid@ a nuestra plataforma de crowdfunding FundMePls!";
-        console.log(correo, nombre)
+        
         sendSmtpEmail.to = [
         { email: correo, name: nombre },
         ];

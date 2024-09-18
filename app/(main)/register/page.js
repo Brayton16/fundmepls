@@ -67,7 +67,6 @@ export default function signUp(){
         });
         
         if(!errorcito){
-            console.log("Email")
             const response = await sendRegisterEmail(
                 rawFormData.email, 
                 rawFormData.nombre
