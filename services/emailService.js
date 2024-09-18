@@ -110,14 +110,14 @@ export async function sendDonationEmail (info) {
     }
 }
 
-export async function sendRegisterProyect(infoProyect){
+export async function sendRegisterProyect(correo, nombre){
 
     try { 
         const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡El proyecto ha sido registrado exitosamente!";
         sendSmtpEmail.to = [
-        { email: infoProyect.email, name: infoProyect.firstName},
+        { email: correo, name: nombre},
         ];
         sendSmtpEmail.htmlContent = `
         <html>
