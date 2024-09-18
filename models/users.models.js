@@ -1,6 +1,5 @@
 import sql from "mssql";
 import {getConnection} from "../database/connection.js";
-import emailService from "../services/emailService.js";
  
 
 export const login = async (req, res) => {
@@ -71,8 +70,6 @@ export const createUser = async (req, res) => {
         .input("Password", sql.VarChar, contrasena)
         .execute('CreateUser');    
  
-        // eviar la bienvenida al usuario por correo electronico
-        await emailService.sendRegisterEmail({nombre, email});
 
         return res.status(201).json({
             message: "Usuario registrado exitosamente.",
@@ -294,12 +291,6 @@ export const makeDonation = async (req, res) =>{
         const ownerEmail = ownerInfo.Email;
         const ownerProjectName = ownerInfo.ProjectName;
 
-        await emailService.sendGratitudeEmail({donorFirstName, donorEmail});
-        await emailService.sendDonationEmail({  
-                                                ownerFirstName, ownerEmail, ownerProjectName, 
-                                                amount, donorFirstName, donorLastName, 
-                                                donorPhoneNumber, donorEmail
-                                            });
         
         return res.status(201).json({
             msg: "Donación exitosa",

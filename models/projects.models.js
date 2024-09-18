@@ -1,5 +1,4 @@
 import {getConnection} from '../database/connection.js';
-import emailService from "../services/emailService.js";
 import sql from 'mssql';
 
 
@@ -120,8 +119,6 @@ export const createProyect = async (req, res) => {
         let email = result.output.Email;
 
         // Enviar correo de registro de proyecto
-        await emailService.sendRegisterProyect({ titulo, email, firstName });
-
         return res.status(201).json({
             message: "Proyecto registrado exitosamente.",
             firstName,
@@ -164,8 +161,7 @@ export const updateProyect = async (req, res) =>{
         let email = result.output.Email;
 
         // envia correo de registro de proyecto
-        await emailService.sendUpdateProyect({ProjectName, email, firstName});
-            
+
         return res.status(201).json({
             message: "Proyecto modificado exitosamente.",
             firstName,
