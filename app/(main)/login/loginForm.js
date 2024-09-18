@@ -45,7 +45,7 @@ export default function LoginForm(){
                             userID: data.userID,
                         })
                     });
-                    //router.push("/users/homepage");  // Redirigir al usuario a la página de inicio
+                    router.push("/users/homepage");  // Redirigir al usuario a la página de inicio
                 } else {
                     // Mostrar mensaje de error al usuario
                     console.error(data.msg || 'Error en la autenticación');
