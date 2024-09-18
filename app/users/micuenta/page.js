@@ -1,13 +1,18 @@
-"use client"
+"use client";
 import UserNavBar from "@/components/userNavbar";
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 export default function micuenta() {
-
     const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
     const [user, setUser] = useState(null); // Estado para almacenar la información del usuario
-    
+    const [transactions, setTransactions] = useState([]); // Estado para almacenar el historial de transacciones
+    const [showTransactions, setShowTransactions] = useState(false); // Estado para controlar el panel desplegable
+
+    const toggleTransactions = () => {
+        setShowTransactions(!showTransactions); // Alterna el panel desplegable
+    };
+
     const obtenerUserID = () => {
         fetch(`http://localhost:3001/users/current`)
             .then(response => response.json())
@@ -17,7 +22,7 @@ export default function micuenta() {
             })
             .catch(error => console.error('Error fetching user:', error));
     };
-    
+
     const obtenerInfoUser = () => {
         if (userID === 0) return; // Evita realizar la petición si el userID no está disponible aún
 
@@ -30,13 +35,26 @@ export default function micuenta() {
             .catch(error => console.error('Error fetching user info:', error));
     };
 
+    const obtenerTransacciones = () => {
+        if (userID === 0) return; // Evita realizar la petición si el userID no está disponible aún
+
+        fetch(`http://localhost:3001/users/donation?userID=${userID}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Historial de transacciones:", data); // Verifica los datos recibidos
+                setTransactions(data);  // Actualiza el estado con el historial de transacciones
+            })
+            .catch(error => console.error('Error fetching transactions:', error));
+    };
+
     useEffect(() => {
         obtenerUserID(); // Obtenemos el userID al montar el componente
-    }, []); 
+    }, []);
 
     useEffect(() => {
         if (userID !== 0) { // Solo buscamos la información si el userID ya se ha obtenido
             obtenerInfoUser();
+            obtenerTransacciones();
         }
     }, [userID]);
 
@@ -46,7 +64,7 @@ export default function micuenta() {
                 <div className="container py-0 h-100">
                     <div className="container-fluid p-0">
                         <div className="row bg-white m-0">
-                            <div className="container container-fluid text-white w-100% p-4" style={{background: "#35303D"}}>
+                            <div className="container container-fluid text-white w-100% p-4" style={{ background: "#35303D" }}>
                                 <div className="row">
                                     <div className="col-6">
                                         <h2>Mi cuenta</h2>
@@ -69,14 +87,14 @@ export default function micuenta() {
                                                     height={70}
                                                 />
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="row m-0">
-                            <div className="col-6 text-white pt-3 p-5" style={{background: "#49454F"}}>
+                            <div className="col-6 text-white pt-3 p-5" style={{ background: "#49454F" }}>
                                 <div className="row m-0">
                                     <div className="col-7">
                                         <h3>Nombre:</h3>
@@ -103,7 +121,7 @@ export default function micuenta() {
                                             src="/default.jpg"
                                             width={170}
                                             height={170}
-                                            style={{borderRadius: "50%"}}
+                                            style={{ borderRadius: "50%" }}
                                             alt="Foto de perfil"
                                         />
                                         <p className="text-primary mt-3">Cambiar foto de perfil</p>
@@ -111,20 +129,42 @@ export default function micuenta() {
                                 </div>
                             </div>
 
-                            <div className="col-6 pt-3 p-5" style={{background: "#D9D9D9"}}>
+                            <div className="col-6 pt-3 p-5" style={{ background: "#D9D9D9" }}>
                                 <h3>Operaciones de billetera:</h3>
-                                <h4 className="p-2 text-primary">Recargar Goofycoins</h4>
-                                <h4 className="p-2 text-primary">Historial de Transacciones</h4>
-                                <br />
-                                <br />
-                                <h3>Cambiar Preferencias</h3>
-                                <h4 className="p-2 text-primary">Notificaciones al correo</h4>
-                                <h4 className="p-2 text-primary">Mostrar lista negra</h4>
-                                <br />
-                                <br />
-                                <h3>Soporte</h3>
-                                <h4 className="p-2 text-primary">Ayuda</h4>
-                                <h4 className="p-2 text-primary">Soporte</h4>
+
+                                <h4 
+                                    className="p-2 text-primary" 
+                                    style={{ cursor: 'pointer' }} 
+                                    onClick={toggleTransactions}
+                                >
+                                    Recargar Goofycoins
+                                </h4>
+
+                                <h4 
+                                    className="p-2 text-primary" 
+                                    style={{ cursor: 'pointer' }} 
+                                    onClick={toggleTransactions}
+                                >
+                                    Historial de transacciones
+                                </h4>
+
+                                {showTransactions && (
+                                    <div className="transaction-history">
+                                        {transactions.length > 0 ? (
+                                            <ul>
+                                                {transactions.map((transaction, index) => (
+                                                    <li key={index}>
+                                                        <p><strong>Fecha:</strong> {transaction.DonationDate}</p>
+                                                        <p><strong>Proyecto:</strong> {transaction.ProjectName}</p>
+                                                        <p><strong>Monto:</strong> {transaction.Amount}</p>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p>No hay transacciones disponibles.</p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -324,8 +324,8 @@ export const makeDonation = async (req, res) =>{
 }
 
 export const getUserDonations = async (req, res) =>{
-    console.log(req.body)
-    const {userID} = req.body;
+    console.log(req.query)
+    const {userID } = req.query; // Obtiene los parámetros de consulta de la URL
 
     // se verifica si algun campo requerido no se ingreso
     if (
@@ -342,11 +342,12 @@ export const getUserDonations = async (req, res) =>{
         .input("UserID", sql.Int, userID)
         .execute('GetUserDonations');   
         
-        if (result.rowsAffected[0] === 0) return res.sendStatus(404);
+        //if (result.rowsAffected[0] === 0) return res.sendStatus(404);
                 
-        const userInfo = result.recordsets[0];
+        const donations = result.recordsets[0];
+        
     
-        res.json(result.recordset);
+        res.json(donations);
 
     } catch (error) {
         res.status(500);
