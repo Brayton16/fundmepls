@@ -1,7 +1,7 @@
 "use client";  // Esto indica que es un Client Component
 import React, { useState, useEffect } from 'react';
 import UserNavBar from "@/components/userNavbar";
-
+import {sendDonationEmail, sendGratitudeEmail} from "@/services/emailService"
 
 export default function Homepage() {
     const [query, setQuery] = useState('');
@@ -17,7 +17,7 @@ export default function Homepage() {
     const [showModal, setShowModal] = useState(false);
     const [donacion, setDonacion] = useState(''); // Estado para el monto de la donación
     const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
-
+    var errorcito = false
     const obtenerUserID = () => {
         fetch(`http://localhost:3001/users/current`)
             .then(response => response.json())
@@ -167,9 +167,14 @@ export default function Homepage() {
         })
         .catch(error => {
             console.error('Error al realizar la donación:', error);
+            errorcito = true
         });
         alert("Se realizo la donacion correctamente")
         window.location.reload(); // O cualquier otra lógica para actualizar la UI
+
+        if(!errorcito){
+            
+        }
     };
 
     useEffect(() => {
