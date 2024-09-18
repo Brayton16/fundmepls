@@ -58,6 +58,7 @@ export default function CrearProyecto() {
         }
 
         if(!errorcito){
+            console.log("Llegamos a mandar el correo")
             const response = await sendRegisterProyect(
                 rawFormData.email, 
                 rawFormData.nombre

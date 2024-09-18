@@ -59,9 +59,9 @@ export default function signUp(){
             router.push("/login");
         })
         .catch(error => {
+            errorcito = true
             console.error('Error:', error);
             alert("Hubo un problema al registrar al usuario");
-            const errorcito = true
         });
         
         if(!errorcito){
