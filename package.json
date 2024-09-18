@@ -30,5 +30,12 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.11",
     "nodemon": "^3.1.4"
+  },
+  "browser": {
+    "fs": false,
+    "path": false, 
+    "os": false, 
+    "net": false, 
+    "tls": false
   }
 }
