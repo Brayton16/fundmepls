@@ -5,7 +5,7 @@ import {sendRegisterProyect} from "@/services/emailService"
 export default function CrearProyecto() {
 
     const [userID, setUserID] = useState(0); // Utilizamos useState para almacenar el userID
-    const error = false
+    var error = false
     const obtenerUserID = () => {
         fetch(`http://localhost:3001/users/current`)
             .then(response => response.json())

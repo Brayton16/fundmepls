@@ -7,7 +7,7 @@ import {sendRegisterEmail} from "@/services/emailService"
 export default function signUp(){
 
     async function ingresarUsuario(event) {
-        const error = false
+        var error = false
         const formData = new FormData(event.target);
         event.preventDefault();
         const rawFormData = {
