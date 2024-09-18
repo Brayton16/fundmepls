@@ -51,6 +51,9 @@ export const sendGratitudeEmail = async (user) => {
         sendSmtpEmail.to = [
         { email: user.donorEmail, name: user.donorFirstName },
         ];
+
+        console.log("Llega aqui ", user.donorEmail, user.donorFirstName)
+
         sendSmtpEmail.htmlContent = `
         <html>
             <body>
