@@ -1,16 +1,21 @@
-import brevo from "@getbrevo/brevo";;
+import brevo from "@getbrevo/brevo";
+import {
+    TransactionalEmailsApi,
+    TransactionalEmailsApiApiKeys,
+    SendSmtpEmail,
+  } from "@getbrevo/brevo";
   
 //const apiKey = process.env.BREVO_API_KEY;
 // EL SERVICIO NO TIENE BIEN LA VARIABLES DE ENTORNO, PERO SI SIRVE SI SE LE COLOCA EL API KEY DIRECTO
 
 const appName = "FundMePls" 
-const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+const apiInstance = new TransactionalEmailsApi();
+apiInstance.setApiKey(TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
   
 export const sendRegisterEmail = async (user) => {
 
     try { 
-        const sendSmtpEmail = new brevo.SendSmtpEmail();
+        const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡Bienvenid@ a nuestra plataforma de crowdfunding FundMePls!";
         sendSmtpEmail.to = [
@@ -40,7 +45,7 @@ export const sendRegisterEmail = async (user) => {
 export const sendGratitudeEmail = async (user) => {
 
     try { 
-        const sendSmtpEmail = new brevo.SendSmtpEmail();
+        const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡Donación realizada con éxito!";
         sendSmtpEmail.to = [
@@ -70,7 +75,7 @@ export const sendGratitudeEmail = async (user) => {
 export const sendDonationEmail = async (info) => {
 
     try { 
-        const sendSmtpEmail = new brevo.SendSmtpEmail();
+        const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡Donación realizada a uno de tus proyectos!";
         sendSmtpEmail.to = [
@@ -107,7 +112,7 @@ export const sendDonationEmail = async (info) => {
 export const sendRegisterProyect = async (infoProyect) => {
 
     try { 
-        const sendSmtpEmail = new brevo.SendSmtpEmail();
+        const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡El proyecto ha sido registrado exitosamente!";
         sendSmtpEmail.to = [
@@ -138,7 +143,7 @@ export const sendRegisterProyect = async (infoProyect) => {
 export const sendUpdateProyect = async (infoProyect) => {
 
     try { 
-        const sendSmtpEmail = new brevo.SendSmtpEmail();
+        const sendSmtpEmail = new SendSmtpEmail();
 
         sendSmtpEmail.subject = "¡El proyecto ha sido modificado exitosamente!";
         sendSmtpEmail.to = [
