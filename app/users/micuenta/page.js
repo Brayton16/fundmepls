@@ -8,51 +8,80 @@ export default function micuenta() {
     const [user, setUser] = useState(null); // Estado para almacenar la información del usuario
     const [transactions, setTransactions] = useState([]); // Estado para almacenar el historial de transacciones
     const [showTransactions, setShowTransactions] = useState(false); // Estado para controlar el panel desplegable
+    const [recargarMonto, setRecargarMonto] = useState(0); // Estado para el monto a recargar
+    const [showRecargar, setShowRecargar] = useState(false); // Estado para mostrar/ocultar recarga
 
     const toggleTransactions = () => {
-        setShowTransactions(!showTransactions); // Alterna el panel desplegable
+        setShowTransactions(!showTransactions); // Alterna el panel de transacciones
+    };
+
+    const toggleRecargar = () => {
+        setShowRecargar(!showRecargar); // Alterna el panel de recargar Goofycoins
+    };
+
+    const handleRecargar = () => {
+        // Aquí puedes hacer una llamada a la API para actualizar el saldo del usuario
+
+        if(recargarMonto > 0){
+            fetch(`http://localhost:3001/users/money`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userID, amount: recargarMonto })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Saldo actualizado:", data);
+                // Actualizar el saldo en el frontend después de recargar
+                setUser(prevUser => ({
+                    ...prevUser,
+                    DigitalMoney: parseFloat(prevUser.DigitalMoney) + parseFloat(recargarMonto)
+                }));
+                setRecargarMonto(0); // Reiniciar el campo de recarga
+            })
+            .catch(error => console.error('Error al recargar:', error));
+        }
     };
 
     const obtenerUserID = () => {
         fetch(`http://localhost:3001/users/current`)
             .then(response => response.json())
             .then(data => {
-                console.log("User Data:", data); // Verifica los datos recibidos
-                setUserID(data.UserID); // Actualiza el userID en el estado
+                console.log("User Data:", data);
+                setUserID(data.UserID);
             })
             .catch(error => console.error('Error fetching user:', error));
     };
 
     const obtenerInfoUser = () => {
-        if (userID === 0) return; // Evita realizar la petición si el userID no está disponible aún
+        if (userID === 0) return;
 
         fetch(`http://localhost:3001/users/id?userID=${userID}`)
             .then(response => response.json())
             .then(data => {
-                console.log("Información del usuario:", data); // Verifica los datos recibidos
-                setUser(data[0]);  // Actualiza el estado con la información del usuario
+                console.log("Información del usuario:", data);
+                setUser(data[0]);
             })
             .catch(error => console.error('Error fetching user info:', error));
     };
 
     const obtenerTransacciones = () => {
-        if (userID === 0) return; // Evita realizar la petición si el userID no está disponible aún
+        if (userID === 0) return;
 
         fetch(`http://localhost:3001/users/donation?userID=${userID}`)
             .then(response => response.json())
             .then(data => {
-                console.log("Historial de transacciones:", data); // Verifica los datos recibidos
-                setTransactions(data);  // Actualiza el estado con el historial de transacciones
+                console.log("Historial de transacciones:", data);
+                setTransactions(data);
             })
             .catch(error => console.error('Error fetching transactions:', error));
     };
 
     useEffect(() => {
-        obtenerUserID(); // Obtenemos el userID al montar el componente
+        obtenerUserID();
     }, []);
 
     useEffect(() => {
-        if (userID !== 0) { // Solo buscamos la información si el userID ya se ha obtenido
+        if (userID !== 0) {
             obtenerInfoUser();
             obtenerTransacciones();
         }
@@ -98,22 +127,19 @@ export default function micuenta() {
                                 <div className="row m-0">
                                     <div className="col-7">
                                         <h3>Nombre:</h3>
-                                        <h5>{user ? user.FirstName : 'Cargando...'}</h5> {/* Nombre */}
+                                        <h5>{user ? user.FirstName : 'Cargando...'}</h5>
                                         <br />
                                         <h3>Apellidos:</h3>
-                                        <h5>{user ? user.LastName : 'Cargando...'}</h5> {/* Apellidos */}
+                                        <h5>{user ? user.LastName : 'Cargando...'}</h5>
                                         <br />
                                         <h3>Email:</h3>
-                                        <h5>{user ? user.Email : 'Cargando...'}</h5> {/* Email */}
-                                        <br />
-                                        <h3>Contraseña:</h3>
-                                        <h5>******</h5> {/* No mostramos la contraseña por seguridad */}
+                                        <h5>{user ? user.Email : 'Cargando...'}</h5>
                                         <br />
                                         <h3>Teléfono:</h3>
-                                        <h5>{user ? user.PhoneNumber : 'Cargando...'}</h5> {/* Teléfono */}
+                                        <h5>{user ? user.PhoneNumber : 'Cargando...'}</h5>
                                         <br />
                                         <h3>Cédula:</h3>
-                                        <h5>{user ? user.Cedula : 'Cargando...'}</h5> {/* Cédula */}
+                                        <h5>{user ? user.Cedula : 'Cargando...'}</h5>
                                     </div>
                                     <div className="col-5">
                                         <img
@@ -132,17 +158,37 @@ export default function micuenta() {
                             <div className="col-6 pt-3 p-5" style={{ background: "#D9D9D9" }}>
                                 <h3>Operaciones de billetera:</h3>
 
-                                <h4 
-                                    className="p-2 text-primary" 
-                                    style={{ cursor: 'pointer' }} 
-                                    onClick={toggleTransactions}
+                                {/* Panel de recargar Goofycoins */}
+                                <h4
+                                    className="p-2 text-primary"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={toggleRecargar}
                                 >
                                     Recargar Goofycoins
                                 </h4>
 
-                                <h4 
-                                    className="p-2 text-primary" 
-                                    style={{ cursor: 'pointer' }} 
+                                {showRecargar && (
+                                    <div className="recargar-goofycoins">
+                                        <input
+                                            type="number"
+                                            value={recargarMonto}
+                                            onChange={(e) => setRecargarMonto(e.target.value)}
+                                            placeholder="Monto a recargar"
+                                            className="form-control mb-2"
+                                        />
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={handleRecargar}
+                                        >
+                                            Recargar
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Panel de historial de transacciones */}
+                                <h4
+                                    className="p-2 text-primary"
+                                    style={{ cursor: 'pointer' }}
                                     onClick={toggleTransactions}
                                 >
                                     Historial de transacciones
